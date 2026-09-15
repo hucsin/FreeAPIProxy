@@ -1,0 +1,14 @@
+{
+  "name": "cline2api-egress-node",
+  "version": "1.0.0",
+  "description": "cline2api egress relay proxy (Node.js standalone) — hybrid connect/fetch, streaming, privacy headers, token auth.",
+  "type": "module",
+  "main": "node-server.js",
+  "scripts": {
+    "start": "node node-server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

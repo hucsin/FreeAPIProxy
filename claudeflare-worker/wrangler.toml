@@ -1,0 +1,12 @@
+name = "cline2api-egress"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+# 部署后手动配置鉴权 token（勿硬编码）：
+#   wrangler secret put PROXY_TOKEN
+[vars]
+# PROXY_TOKEN 优先用 secret 注入；此处留空可读环境变量。
+PROXY_TOKEN = ""
+# 模式：auto / socket / fetch（默认 auto：智能切换）
+PROXY_MODE = "auto"
