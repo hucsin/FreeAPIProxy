@@ -1,5 +1,5 @@
 [Unit]
-Description=FreeAPII Node egress proxy (freeapiproxy)
+Description=FreeApi egress proxy (FreeApi.service)
 # 网络就绪后再启动；崩溃时由 Restart 兜底
 After=network-online.target
 Wants=network-online.target
@@ -10,16 +10,16 @@ Type=simple
 # ---- 运行环境 ----
 # install.sh 会自动把下面 ExecStart 改写为 node 的真实绝对路径，并同步调整 User/ProtectHome。
 # 若手工编辑本文件，node 装在用户目录(如 ~/.nvm)时务必填绝对路径，例如：
-#   ExecStart=/root/.nvm/versions/node/v24.21.0/bin/node /opt/freeapiproxy/node-server.js --port 8788 --mode auto
-ExecStart=/usr/bin/env node /opt/freeapiproxy/node-server.js --port 8788 --mode auto
-WorkingDirectory=/opt/freeapiproxy
+#   ExecStart=/root/.nvm/versions/node/v24.21.0/bin/node /opt/freeapi/node-server.js --port 8788 --mode auto
+ExecStart=/usr/bin/env node /opt/freeapi/node-server.js --port 8788 --mode auto
+WorkingDirectory=/opt/freeapi
 # 非 root 运行更安全；install.sh 会在 node 位于 /root|/home 下时自动改为 root
-User=freeapiproxy
-Group=freeapiproxy
+User=freeapi
+Group=freeapi
 
 # ---- 密钥来源（独立 env 文件，权限 600，勿提交仓库）----
 # 文件里按需配置：PROXY_TOKEN / PROXY_MODE / PORT / PROXY_ALLOW_OPEN
-EnvironmentFile=-/etc/freeapiproxy/freeapiproxy.env
+EnvironmentFile=-/etc/freeapi/freeapi.env
 
 # ---- 自动拉起策略 ----
 Restart=always
@@ -29,9 +29,9 @@ RestartSec=3
 StandardOutput=journal
 StandardError=journal
 # 若想额外落到文件，可改用：
-#   StandardOutput=append:/var/log/freeapiproxy/node-proxy.log
-#   StandardError=append:/var/log/freeapiproxy/node-proxy.log
-#   （需先创建该文件并 chown freeapiproxy:freeapiproxy）
+#   StandardOutput=append:/var/log/freeapi/node-proxy.log
+#   StandardError=append:/var/log/freeapi/node-proxy.log
+#   （需先创建该文件并 chown freeapi:freeapi）
 
 # ---- 加固（生产建议，按需启用）----
 # 服务本身只做出口转发，不需要读写能力

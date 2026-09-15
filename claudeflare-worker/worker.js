@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- *  Claudeflare 风格 Cloudflare Worker 反代 —— FreeAPIProxy egress proxy
+ *  Claudeflare 风格 Cloudflare Worker 反代 —— cline2api egress proxy
  * ============================================================================
  * 混合代理模式 + 流式传输 + 隐私头处理 + 鉴权 token + fetch 自动降级。
  *
@@ -23,7 +23,7 @@
  *  4. 健壮性 + 鉴权
  *     Socket 失败立即降级 fetch()。X-Proxy-Token 校验，防滥用。
  *
- *  5. egress 中继（FreeAPIProxy 绑定代理）
+ *  5. egress 中继（cline2api 绑定代理）
  *     当请求携带 X-Forward-Target（完整上游 URL）时本 Worker 作为中继转发。
  *     账号/apikey「走代理」依赖此契约。X-Proxy-Token 为代理自身鉴权，
  *     透传时会被剥掉；真正的上游凭据（Authorization 等）原样转发。
@@ -95,11 +95,72 @@ function buildForwardHeaders(headers, ctx) {
   return out;
 }
 
+// 下游响应需要剥掉的 hop-by-hop / 危险头（避免分帧冲突与头注入）。
+const RESP_HOP = new Set([
+  'connection',
+  'keep-alive',
+  'transfer-encoding',
+  'upgrade',
+  'trailer',
+  'trailers',
+  'te',
+  'expect',
+]);
+
+// 过滤上游响应头：剥 hop-by-hop、Connection 声明的头、proxy-*、via。
+function filterResponseHeaders(headers) {
+  const out = new Headers();
+  const conn = new Set();
+  const connVal = headers.get('connection');
+  if (connVal) {
+    connVal.split(',').forEach((c) => {
+      const t = c.trim().toLowerCase();
+      if (t) conn.add(t);
+    });
+  }
+  headers.forEach((value, key) => {
+    const k = key.toLowerCase();
+    if (RESP_HOP.has(k) || conn.has(k) || k.startsWith('proxy-') || k === 'via') return;
+    out.set(key, value);
+  });
+  // Headers.forEach 只给每个 key 一个值；set-cookie 多值时用 getSetCookie 补齐
+  if (typeof headers.getSetCookie === 'function') {
+    const sc = headers.getSetCookie();
+    if (sc && sc.length) {
+      out.delete('set-cookie');
+      sc.forEach((v) => out.append('set-cookie', v));
+    }
+  }
+  return out;
+}
+
 function jsonError(status, message) {
   return new Response(JSON.stringify({ error: { message, type: 'proxy_error' } }), {
     status,
     headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
   });
+}
+
+// 浏览器跨域（CORS）放行：仅当请求带 Origin 才回，回声该 Origin 并允许凭据；
+// 服务端到服务端（无 Origin）返回 null，保持透传干净。
+function corsForRequest(request) {
+  const origin = request.headers.get('Origin');
+  if (!origin) return null;
+  const acr = request.headers.get('Access-Control-Request-Headers');
+  const h = new Headers();
+  h.set('Access-Control-Allow-Origin', origin);
+  h.set('Vary', 'Origin');
+  h.set('Access-Control-Allow-Credentials', 'true');
+  h.set('Access-Control-Allow-Methods', 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS');
+  h.set('Access-Control-Allow-Headers', acr || 'Content-Type,Authorization,X-Proxy-Token,X-Forward-Target,X-Proxy-Mode,Range');
+  h.set('Access-Control-Max-Age', '86400');
+  return h;
+}
+function mergeCors(base, cors) {
+  if (!cors) return base;
+  const out = new Headers(base);
+  cors.forEach((v, k) => out.set(k, v));
+  return out;
 }
 
 /** 校验 token：恒定时间比较。 */
@@ -123,7 +184,7 @@ export default {
     if (request.method === 'OPTIONS') {
       return new Response(null, {
         status: 204,
-        headers: { 'Access-Control-Allow-Origin': '*' },
+        headers: mergeCors(new Headers(), corsForRequest(request)),
       });
     }
 
@@ -177,7 +238,7 @@ export default {
         writer.releaseLock();
         return new Response(socket.readable, {
           status: 200,
-          headers: { 'Content-Type': 'application/octet-stream' },
+          headers: mergeCors({'Content-Type': 'application/octet-stream'}, corsForRequest(request)),
         });
       } catch (socketErr) {
         // —— 自动回退 fetch，保证可用 ——
@@ -215,6 +276,6 @@ async function doFetch(targetURL, request, body) {
   return new Response(upstream.body, {
     status: upstream.status,
     statusText: upstream.statusText,
-    headers: upstream.headers,
+    headers: mergeCors(filterResponseHeaders(upstream.headers), corsForRequest(request)),
   });
 }

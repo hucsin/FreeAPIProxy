@@ -1,6 +1,6 @@
 #!/bin/sh
 # ============================================================================
-#  FreeAPIProxy —— 一键安装为 Linux systemd 常驻服务（开机自启）
+#  FreeApi —— 一键安装为 Linux systemd 常驻服务（开机自启）
 #
 #  纯 POSIX sh 编写（兼容 dash/bash/zsh），可直接：
 #      sudo sh install.sh           # 或
@@ -8,8 +8,10 @@
 #
 #  前置条件（脚本会自动检查）：
 #    - root 权限
-#    - node >= 18（Node 18 才有全局 fetch；脚本会自动解析 node 的绝对路径写入服务单元，
-#      即使装在 ~/.nvm 等用户目录，也会自动以 root 运行，无需手动改路径）
+#    - node >= 18.13（Node 18.13+ 才有全局 fetch 且支持 compress:false —— 只有
+#      支持该选项，上游 Content-Encoding 才能原样透传；脚本会自动解析 node 的
+#      绝对路径写入服务单元，即使装在 ~/.nvm 等用户目录也会自动以 root 运行，
+#      无需手动改路径）
 #    - systemd 发行版（Ubuntu/Debian/CentOS/Fedora/Rocky 等现代 Linux）
 #
 #  用法：
@@ -17,10 +19,10 @@
 #    sudo ./install.sh --no-start # 只部署，不启动/不 enable（便于你先改 env）
 #
 #  产出：
-#    /opt/freeapiproxy/                     代码目录（node-server.js / package.json）
-#    /etc/freeapiproxy/freeapiproxy.env       密钥环境文件（权限 600）
-#    /etc/systemd/system/freeapiproxy.service  systemd 单元（名字即 freeapiproxy）
-#    运行账号 freeapiproxy（系统账户，禁登录）
+#    /opt/freeapi/                     代码目录（node-server.js / package.json）
+#    /etc/freeapi/freeapi.env       密钥环境文件（权限 600）
+#    /etc/systemd/system/FreeApi.service  systemd 单元（名字即 FreeApi）
+#    运行账号 freeapi（系统账户，禁登录）
 # ============================================================================
 set -eu
 
@@ -44,13 +46,13 @@ fi
 
 if command -v node >/dev/null 2>&1; then
   NODE_VER="$(node -v)"
-  if ! node -e 'process.exit(process.versions.node.split(".")[0]>=18?0:1)' 2>/dev/null; then
-    echo "✗ 检测到 node ${NODE_VER}，但本服务需要 node>=18（Node 18 才有全局 fetch）。" >&2
+  if ! node -e 'const [m,mi]=process.versions.node.split(".").map(Number);process.exit(Number(m>18||(m===18&&mi>=13))?0:1)' 2>/dev/null; then
+    echo "✗ 检测到 node ${NODE_VER}，但本服务需要 node>=18.13（Node 18.13+ 才支持全局 fetch 的 compress:false，用于让上游 Content-Encoding 原样透传）。" >&2
     exit 1
   fi
   echo "✓ node ${NODE_VER}"
 else
-  echo "✗ 未在 PATH 找到 node。请先安装 node>=18，或把 node 所在目录加入 PATH/软链到 /usr/local/bin。" >&2
+  echo "✗ 未在 PATH 找到 node。请先安装 node>=18.13，或把 node 所在目录加入 PATH/软链到 /usr/local/bin。" >&2
   exit 1
 fi
 
@@ -75,33 +77,33 @@ if [ ! -f "${SRC_JS}" ]; then
 fi
 
 # ---------- 3. 创建系统账户（已存在则跳过） ----------
-if ! id freeapiproxy >/dev/null 2>&1; then
-  useradd --system --no-create-home --shell /usr/sbin/nologin freeapiproxy
-  echo "✓ 已创建系统账户 freeapiproxy"
+if ! id freeapi >/dev/null 2>&1; then
+  useradd --system --no-create-home --shell /usr/sbin/nologin freeapi
+  echo "✓ 已创建系统账户 freeapi"
 else
-  echo "✓ 系统账户 freeapiproxy 已存在"
+  echo "✓ 系统账户 freeapi 已存在"
 fi
 
-# ---------- 4. 部署代码到 /opt/freeapiproxy ----------
-INSTALL_DIR=/opt/freeapiproxy
+# ---------- 4. 部署代码到 /opt/freeapi ----------
+INSTALL_DIR=/opt/freeapi
 mkdir -p "${INSTALL_DIR}"
 install -m 0644 "${SRC_JS}" "${INSTALL_DIR}/node-server.js"
 install -m 0644 "${SRC_PKG}" "${INSTALL_DIR}/package.json"
-chown -R freeapiproxy:freeapiproxy "${INSTALL_DIR}"
+chown -R freeapi:freeapi "${INSTALL_DIR}"
 echo "✓ 代码已部署到 ${INSTALL_DIR}"
 
 # ---------- 5. 密钥环境文件（存在则不覆盖，保留旧 token） ----------
-ENV_DIR=/etc/freeapiproxy
-ENV_FILE="${ENV_DIR}/freeapiproxy.env"
+ENV_DIR=/etc/freeapi
+ENV_FILE="${ENV_DIR}/freeapi.env"
 mkdir -p "${ENV_DIR}"
 if [ -f "${ENV_FILE}" ]; then
-  echo "✓ 已存在 ${ENV_FILE}，保留不动（如需换 token 请手动编辑后 systemctl restart freeapiproxy）"
+  echo "✓ 已存在 ${ENV_FILE}，保留不动（如需换 token 请手动编辑后 systemctl restart FreeApi）"
 else
   # 从模板复制；若模板缺失则用默认 + 随机 token
   TOKEN="$(head -c24 /dev/urandom | base64 | tr -d '/+=' | head -c32)"
-  if [ -f "${SCRIPT_DIR}/freeapiproxy.env.example" ]; then
+  if [ -f "${SCRIPT_DIR}/freeapi.env.example" ]; then
     sed "s/^PROXY_TOKEN=.*/PROXY_TOKEN=${TOKEN}/" \
-        "${SCRIPT_DIR}/freeapiproxy.env.example" > "${ENV_FILE}"
+        "${SCRIPT_DIR}/freeapi.env.example" > "${ENV_FILE}"
   else
     printf 'PROXY_TOKEN=%s\n# PROXY_MODE=auto\n# PORT=8788\n' "${TOKEN}" > "${ENV_FILE}"
   fi
@@ -112,8 +114,8 @@ chmod 0600 "${ENV_FILE}"
 chown root:root "${ENV_FILE}"
 
 # ---------- 6. 生成 systemd 单元（自动适配 node 路径与运行用户） ----------
-UNIT=/etc/systemd/system/freeapiproxy.service
-SRC_UNIT="${SCRIPT_DIR}/freeapiproxy.service"
+UNIT=/etc/systemd/system/FreeApi.service
+SRC_UNIT="${SCRIPT_DIR}/FreeApi.service"
 if [ ! -f "${SRC_UNIT}" ]; then
   echo "✗ 缺少 ${SRC_UNIT}，跳过单元安装。" >&2
   exit 1
@@ -133,12 +135,12 @@ case "${NODE_BIN}" in
     PROTECT_HOME=read-only
     ;;
   *)
-    RUN_USER=freeapiproxy
+    RUN_USER=freeapi
     PROTECT_HOME=yes
     ;;
 esac
 
-sed -e "s|^ExecStart=.*|ExecStart=${NODE_BIN} /opt/freeapiproxy/node-server.js --port 8788 --mode auto|" \
+sed -e "s|^ExecStart=.*|ExecStart=${NODE_BIN} /opt/freeapi/node-server.js --port 8788 --mode auto|" \
     -e "s|^User=.*|User=${RUN_USER}|" \
     -e "s|^Group=.*|Group=${RUN_USER}|" \
     -e "s|^ProtectHome=.*|ProtectHome=${PROTECT_HOME}|" \
@@ -152,16 +154,16 @@ systemctl daemon-reload
 
 # ---------- 7. 启动 + 开机自启 ----------
 if [ "${START}" = "1" ]; then
-  systemctl enable --now freeapiproxy.service
-  echo "✓ 已 enable 开机自启并启动 freeapiproxy"
+  systemctl enable --now FreeApi.service
+  echo "✓ 已 enable 开机自启并启动 FreeApi"
   sleep 1
-  systemctl --no-pager status freeapiproxy.service || true
+  systemctl --no-pager status FreeApi.service || true
   echo
-  echo "查看实时日志: journalctl -u freeapiproxy -f"
+  echo "查看实时日志: journalctl -u FreeApi -f"
 else
   echo "(--no-start) 未启动。手动操作:"
   echo "  systemctl daemon-reload"
-  echo "  systemctl enable freeapiproxy.service   # 开机自启"
-  echo "  systemctl start  freeapiproxy.service   # 启动"
+  echo "  systemctl enable FreeApi.service   # 开机自启"
+  echo "  systemctl start  FreeApi.service   # 启动"
 fi
 echo "完成。"

@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- *  Claudeflare 风格反代 —— Node.js 独立版 (FreeAPI egress proxy)
+ *  Claudeflare 风格反代 —— Node.js 独立版 (cline2api egress proxy)
  * ============================================================================
  * 与 Cloudflare Worker 版 worker.js 同构：混合代理 + 流式 + 隐私头 + token。
  *
@@ -12,7 +12,7 @@
  * 支持三种入站形态：
  *   1) HTTP 绝对 URI（RFC7230 老代理）：curl -x http://127.0.0.1:8788 https://api...
  *   2) CONNECT 隧道：用于浏览器/system proxy 的 https。
- *   3) egress 中继（FreeAPI 绑定代理契约）：请求带 X-Forward-Target 完整上游 URL
+ *   3) egress 中继（cline2api 绑定代理契约）：请求带 X-Forward-Target 完整上游 URL
  *      + X-Proxy-Token，服务转发到目标并在透传时剥掉 X-Proxy-Token/X-Forward-Target
  *      等内部头，保留真实上游凭据。
  *
@@ -68,6 +68,42 @@ const BLOCKED = new Set([
   'x-proxy-token', 'x-forward-target', 'x-upstream-auth',
 ]);
 
+// 下游响应需要剥掉的 hop-by-hop / 危险头（避免分帧冲突与头注入）。
+const RESP_HOP = new Set([
+  'connection', 'keep-alive', 'transfer-encoding', 'upgrade', 'trailer',
+  'trailers', 'te', 'expect',
+]);
+
+// 过滤上游响应头：剥 hop-by-hop 与 Connection 声明的头，以及 proxy-* / via。
+// srcHeaders 为普通对象（socket 的 incoming.headers）或 Headers（fetch）。
+function filterResponseHeaders(srcHeaders) {
+  const out = {};
+  const conn = new Set();
+  const connVal = srcHeaders && srcHeaders.connection;
+  if (connVal) {
+    String(connVal).split(',').forEach((c) => {
+      const t = c.trim().toLowerCase();
+      if (t) conn.add(t);
+    });
+  }
+  const add = (k, v) => {
+    const lk = String(k).toLowerCase();
+    if (RESP_HOP.has(lk) || conn.has(lk) || lk.startsWith('proxy-') || lk === 'via') return;
+    out[k] = v;
+  };
+  if (srcHeaders instanceof Headers) {
+    srcHeaders.forEach((v, k) => add(k, v));
+    // Headers.forEach 只给每个 key 一个值；set-cookie 多值时用 getSetCookie 补齐
+    if (typeof srcHeaders.getSetCookie === 'function') {
+      const sc = srcHeaders.getSetCookie();
+      if (sc && sc.length) out['set-cookie'] = sc;
+    }
+  } else {
+    for (const [k, v] of Object.entries(srcHeaders || {})) add(k, v);
+  }
+  return out;
+}
+
 function buildForwardHeaders(headers, ctx) {
   const out = {};
   for (const [k, v] of Object.entries(headers || {})) {
@@ -111,30 +147,53 @@ function bad(res, status, msg) {
   res.end(JSON.stringify({ error: { message: msg, type: 'proxy_error' } }));
 }
 
+// 浏览器跨域（CORS）放行：仅当请求带 Origin 头（真实浏览器跨域场景）才回
+// CORS 头，回声该 Origin 并允许携带凭据；服务端到服务端（无 Origin）保持透传干净。
+function corsFor(req) {
+  const origin = req.headers['origin'];
+  if (!origin) return {};
+  const h = {
+    'Access-Control-Allow-Origin': origin,
+    'Vary': 'Origin',
+    'Access-Control-Allow-Credentials': 'true',
+    'Access-Control-Allow-Methods': 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS',
+    'Access-Control-Allow-Headers': req.headers['access-control-request-headers'] || 'Content-Type,Authorization,X-Proxy-Token,X-Forward-Target,X-Proxy-Mode,Range',
+    'Access-Control-Max-Age': '86400',
+  };
+  return h;
+}
+
 /* ---------------- fetch 模式（原生流式透传） ---------------- */
-async function forwardViaFetch(target, method, fwdHeaders, bodyBuffer, res) {
-  const init = { method, headers: fwdHeaders, redirect: 'manual' };
-  if (bodyBuffer !== null && bodyBuffer !== undefined) init.body = bodyBuffer;
-  const upstream = await fetch(target.toString(), init);
-  const outHeaders = {};
-  upstream.headers.forEach((v, k) => { outHeaders[k] = v; });
-  res.writeHead(upstream.status || 502, outHeaders);
-  if (upstream.body) {
-    const reader = upstream.body.getReader();
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      res.write(Buffer.from(value));
-    }
+async function streamBody(res, body) {
+  if (!body) { res.end(); return; }
+  const reader = body.getReader();
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    res.write(Buffer.from(value));
   }
   res.end();
+}
+async function forwardViaFetch(target, method, fwdHeaders, bodyBuffer, res, corsObj) {
+  const init = { method, headers: fwdHeaders, redirect: 'manual' };
+  if (bodyBuffer !== null && bodyBuffer !== undefined) init.body = bodyBuffer;
+  // 优先 compress:false —— 关闭 undici 自动解压，让上游 Content-Encoding 头原样透传；
+  // 老环境不支持该选项时退化为默认（自动解压）。
+  let upstream;
+  try {
+    upstream = await fetch(target.toString(), { ...init, compress: false });
+  } catch {
+    upstream = await fetch(target.toString(), init);
+  }
+  res.writeHead(upstream.status || 502, { ...filterResponseHeaders(upstream.headers), ...corsObj });
+  await streamBody(res, upstream.body);
 }
 
 /* ---------------- Socket 模式：真实 TCP/TLS 直连 + 双工泵送 ----------------
  * 用上游 http.IncomingMessage 语义需要手写解析头，这里用 node 的 http 客户端能力
  * 简化：不手写，直接复用 node:http.request/https.request 建立「原始」连接流式回传。
  */
-function forwardViaSocket(target, method, fwdHeaders, bodyBuffer, res) {
+function forwardViaSocket(target, method, fwdHeaders, bodyBuffer, res, corsObj) {
   return new Promise((resolve, reject) => {
     const isHttps = target.protocol === 'https:';
     const port = target.port || (isHttps ? 443 : 80);
@@ -149,7 +208,7 @@ function forwardViaSocket(target, method, fwdHeaders, bodyBuffer, res) {
         servername: isHttps ? target.hostname : undefined,
       },
       (upstream) => {
-        res.writeHead(upstream.statusCode || 502, upstream.headers);
+        res.writeHead(upstream.statusCode || 502, { ...filterResponseHeaders(upstream.headers), ...corsObj });
         upstream.pipe(res);
         upstream.on('end', () => { res.end(); resolve(); });
       }
@@ -182,10 +241,12 @@ function handleConnect(req, clientSocket) {
 
 /* ---------------- 主服务 ---------------- */
 const server = http.createServer((req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
+  // 预检（OPTIONS）：跨域浏览器会先发它；带 Origin 时回 CORS，否则 204。
+  if (req.method === 'OPTIONS') { res.writeHead(204, corsFor(req)); res.end(); return; }
   if (req.method === 'CONNECT') { handleConnect(req, req.socket); return; }
   if (!authOk(req.headers, req.url)) { bad(res, 401, 'invalid or missing proxy token'); return; }
+
+  const corsObj = corsFor(req);
 
   // 目标
   const fwd = req.headers['x-forward-target'];
@@ -206,10 +267,10 @@ const server = http.createServer((req, res) => {
     const mode = req.headers['x-proxy-mode'] || MODE;
     try {
       if (!shouldForceFetch(target.host, mode)) {
-        try { await forwardViaSocket(target, req.method, fwdHeaders, bodyBuffer, res); return; }
-        catch (socketErr) { await forwardViaFetch(target, req.method, fwdHeaders, bodyBuffer, res); return; }
+        try { await forwardViaSocket(target, req.method, fwdHeaders, bodyBuffer, res, corsObj); return; }
+        catch (socketErr) { await forwardViaFetch(target, req.method, fwdHeaders, bodyBuffer, res, corsObj); return; }
       }
-      await forwardViaFetch(target, req.method, fwdHeaders, bodyBuffer, res);
+      await forwardViaFetch(target, req.method, fwdHeaders, bodyBuffer, res, corsObj);
     } catch (e) {
       bad(res, 502, 'upstream failed: ' + String(e && e.message || e));
     }

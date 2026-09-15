@@ -1,7 +1,7 @@
 <?php
 /**
  * ============================================================================
- *  Claudeflare 风格反代 —— PHP 独立版 (FreeAPI egress proxy)
+ *  Claudeflare 风格反代 —— PHP 独立版 (cline2api egress proxy)
  * ============================================================================
  * 与 node/node-server.js 及 claudeflare-worker/worker.js 同构：
  * 混合代理 + 流式传输 + 隐私头 + token 鉴权 + 自动降级。
@@ -14,7 +14,7 @@
  * 支持两种入站形态：
  *   1) HTTP 绝对 URI（RFC7230 老代理）：curl -x http://127.0.0.1:8788 https://api...
  *      （仅内置服务器 SAPI 下可解析绝对 URI；FPM 下需用 X-Forward-Target）
- *   2) egress 中继（FreeAPI 绑定代理契约）：请求带 X-Forward-Target 完整上游 URL
+ *   2) egress 中继（cline2api 绑定代理契约）：请求带 X-Forward-Target 完整上游 URL
  *      + X-Proxy-Token，转发到目标并剥掉 X-Proxy-Token/X-Forward-Target 等内部头，
  *      保留真实上游凭据（Authorization）。
  *
@@ -45,6 +45,12 @@ $BLOCKED_HEADERS = [
     'user-agent', // 不透传客户端 UA（避免泄漏真实浏览器标识给上游）
     'host', 'connection', 'proxy-connection', 'keep-alive',
     'content-length', // cURL 设置 POSTFIELDS 时自行计算 Content-Length，避免与透传值冲突
+];
+
+// 下游响应需要剥掉的 hop-by-hop / 危险头（避免分帧冲突与头注入）。
+$RESP_HOP = [
+    'connection', 'keep-alive', 'transfer-encoding', 'upgrade',
+    'trailer', 'trailers', 'te', 'expect',
 ];
 
 // ---------- 工具函数 ----------
@@ -139,6 +145,49 @@ function proxy_forward_headers() {
     return $out;
 }
 
+/** 浏览器跨域（CORS）放行：仅当请求带 Origin 头才回（回声该 Origin 并允许凭据）；
+ * 服务端到服务端（无 Origin）不做任何事，保持透传干净。 */
+function proxy_emit_cors() {
+    $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+    if ($origin === '') return;
+    $acr = $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'] ?? '';
+    if ($acr === '') $acr = 'Content-Type,Authorization,X-Proxy-Token,X-Forward-Target,X-Proxy-Mode,Range';
+    header('Access-Control-Allow-Origin: ' . $origin);
+    header('Vary: Origin');
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Allow-Methods: GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS');
+    header('Access-Control-Allow-Headers: ' . $acr);
+    header('Access-Control-Max-Age: 86400');
+}
+
+/** 过滤并落地上游响应头：剥 hop-by-hop、Connection 声明的头、proxy-*、via、
+ * 以及 content-encoding（cURL 已自动解压，透传会与实际 body 不符）。 */
+function proxy_emit_response_headers($respHeaders) {
+    global $RESP_HOP;
+    // 浏览器跨域放行（带 Origin 才有效）
+    proxy_emit_cors();
+    // Connection 声明点名的头也要剥（case-insensitive）。
+    $connSet = [];
+    foreach ($respHeaders as [$name, $val]) {
+        if (strcasecmp(trim($name), 'connection') === 0) {
+            foreach (explode(',', $val) as $c) {
+                $t = strtolower(trim($c));
+                if ($t !== '') $connSet[$t] = true;
+            }
+        }
+    }
+    if (!headers_sent()) {
+        foreach ($respHeaders as [$name, $val]) {
+            $lk = strtolower($name);
+            if (in_array($lk, $RESP_HOP, true)) continue;
+            if (isset($connSet[$lk])) continue;
+            if (strpos($lk, 'proxy-') === 0) continue;
+            if ($lk === 'via' || $lk === 'content-encoding') continue;
+            header($name . ': ' . $val, false);
+        }
+    }
+}
+
 /** 供 cURL CURLOPT_HTTPHEADER 使用的 'K: V' 数组。 */
 function proxy_header_list($assoc) {
     $list = [];
@@ -172,9 +221,7 @@ function proxy_target(&$host) {
 //  主流程
 // ============================================================================
 
-header('Access-Control-Allow-Origin: *');
-
-if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'OPTIONS') { http_response_code(204); exit; }
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'OPTIONS') { proxy_emit_cors(); http_response_code(204); exit; }
 if (!proxy_auth_ok()) proxy_bad(401, 'invalid or missing proxy token');
 
 $host = '';
@@ -204,9 +251,7 @@ $onHeader = function ($curl, $hdr) use (&$respStatus, &$respHeaders, &$headersDo
     if (strpos($hdr, ':') !== false) {
         $name = trim(substr($hdr, 0, strpos($hdr, ':')));
         $val  = trim(substr($hdr, strpos($hdr, ':') + 1));
-        $lk   = strtolower($name);
-        if ($lk === 'transfer-encoding' || $lk === 'connection') return $len;
-        // 多个同名头合并
+        // 收集原始头，过滤统一放到 proxy_emit_response_headers 落发时做
         $respHeaders[] = [$name, $val];
     }
     return $len;
@@ -216,14 +261,8 @@ $flushSent = false;
 $onBody = function ($curl, $chunk) use (&$flushSent, &$respStatus, &$respHeaders) {
     if (!$flushSent) {
         $flushSent = true;
-        if (!headers_sent()) {
-            http_response_code($respStatus);
-            $skip = ['content-encoding'];
-            foreach ($respHeaders as [$name, $val]) {
-                if (in_array(strtolower($name), $skip, true)) continue;
-                header($name . ': ' . $val, false);
-            }
-        }
+        if (!headers_sent()) http_response_code($respStatus);
+        proxy_emit_response_headers($respHeaders);
     }
     echo $chunk;
     if (function_exists('ob_flush')) ob_flush();
@@ -267,7 +306,7 @@ curl_close($ch);
 if (!$flushSent) {
     if (!headers_sent()) {
         http_response_code($respStatus);
-        foreach ($respHeaders as [$name, $val]) header($name . ': ' . $val, false);
+        proxy_emit_response_headers($respHeaders);
     }
 }
 exit;
