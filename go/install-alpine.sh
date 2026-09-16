@@ -114,10 +114,11 @@ fetch_and_build() {
     check_go
 
     log_step "本地编译（CGO_ENABLED=0）"
-    local tmpdir
+    local tmpdir go_cmd
+    go_cmd="$(command -v go)"
     tmpdir="$(mktemp -d)"
     cp "$SRC_PATH" "$tmpdir/go-proxy.go"
-    ( cd "$tmpdir" && CGO_ENABLED=0 GOOS=linux $GO_HOME/bin/go build -trimpath -ldflags "-s -w" -o go-proxy go-proxy.go )
+    ( cd "$tmpdir" && CGO_ENABLED=0 GOOS=linux "$go_cmd" build -trimpath -ldflags "-s -w" -o go-proxy go-proxy.go )
     mv -f "$tmpdir/go-proxy" "$BIN_PATH"
     rm -rf "$tmpdir"
     chmod +x "$BIN_PATH"
