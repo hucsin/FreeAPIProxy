@@ -121,10 +121,11 @@ fetch_and_build() {
     # 强制模块关闭 + 本地工具链 + 离线代理，避免访问 proxy.golang.org /
     # 下载工具链导致卡住；GOFLAGS 清空避免继承冲突。
     build_cmd="GO111MODULE=off GOPROXY=off GOTOOLCHAIN=local GOFLAGS= CGO_ENABLED=0 GOOS=linux"
+    log_info "开始编译（-v 打印每步，可观察进度），缓存：$HOME/.cache/go-build ..."
     if command -v timeout >/dev/null 2>&1; then
-        ( cd "$tmpdir" && env $build_cmd timeout 300 "$go_cmd" build -trimpath -ldflags "-s -w" -o go-proxy go-proxy.go )
+        ( cd "$tmpdir" && env $build_cmd timeout 300 "$go_cmd" build -v -trimpath -ldflags "-s -w" -o go-proxy go-proxy.go )
     else
-        ( cd "$tmpdir" && env $build_cmd "$go_cmd" build -trimpath -ldflags "-s -w" -o go-proxy go-proxy.go )
+        ( cd "$tmpdir" && env $build_cmd "$go_cmd" build -v -trimpath -ldflags "-s -w" -o go-proxy go-proxy.go )
     fi
     mv -f "$tmpdir/go-proxy" "$BIN_PATH"
     rm -rf "$tmpdir"
