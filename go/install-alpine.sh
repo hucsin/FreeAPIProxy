@@ -121,11 +121,17 @@ fetch_and_build() {
     # 强制模块关闭 + 本地工具链 + 离线代理，避免访问 proxy.golang.org /
     # 下载工具链导致卡住；GOFLAGS 清空避免继承冲突。
     build_cmd="GO111MODULE=off GOPROXY=off GOTOOLCHAIN=local GOFLAGS= CGO_ENABLED=0 GOOS=linux"
-    log_info "开始编译（-v 打印每步，可观察进度），缓存：$HOME/.cache/go-build ..."
+    log_info "开始编译（-p=1 单包串行以控制内存，-v 打印每步），缓存：$HOME/.cache/go-build ..."
     if command -v timeout >/dev/null 2>&1; then
-        ( cd "$tmpdir" && env $build_cmd timeout 300 "$go_cmd" build -v -trimpath -ldflags "-s -w" -o go-proxy go-proxy.go )
+        ( cd "$tmpdir" && env $build_cmd timeout 600 "$go_cmd" build -p=1 -v -trimpath -ldflags "-s -w" -o go-proxy go-proxy.go )
     else
-        ( cd "$tmpdir" && env $build_cmd "$go_cmd" build -v -trimpath -ldflags "-s -w" -o go-proxy go-proxy.go )
+        ( cd "$tmpdir" && env $build_cmd "$go_cmd" build -p=1 -v -trimpath -ldflags "-s -w" -o go-proxy go-proxy.go )
+    fi
+    if [ ! -f "$tmpdir/go-proxy" ]; then
+        log_warn "编译未产出二进制，可能因内存不足(Python OOM)被杀。建议："
+        log_warn "  1. 您机器内存较小，已用 -p=1 串行编译；如仍失败请加 swap。"
+        log_warn "  2. 参考补 swap：  fallocate -l 1G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile"
+        return 1
     fi
     mv -f "$tmpdir/go-proxy" "$BIN_PATH"
     rm -rf "$tmpdir"
@@ -269,7 +275,7 @@ do_install() {
     log_step "环境检查"
     mk_dirs
 
-    fetch_and_build
+    fetch_and_build || { log_err "编译失败，安装中止。"; return 1; }
 
     log_step "写入配置"
     write_conf "$token" "$port"
@@ -284,7 +290,7 @@ do_update() {
         return 1
     fi
     log_step "更新：拉最新源码并重编译"
-    fetch_and_build
+    fetch_and_build || { log_err "编译失败，更新中止。"; return 1; }
     log_step "重启服务生效"
     restart_service
 }
