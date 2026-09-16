@@ -193,15 +193,15 @@ EOF
 
 prompt_token() {
     local tok
-    echo -e "${CYAN}设置代理鉴权 Token${NC}"
-    echo -e "  （留空表示不设 Token；注意：不设 Token 时服务默认拒绝连接，除非设置 PROXY_ALLOW_OPEN=1）"
+    echo -e "${CYAN}设置代理鉴权 Token${NC}" >&2
+    echo -e "  （留空表示不设 Token；注意：不设 Token 时服务默认拒绝连接，除非设置 PROXY_ALLOW_OPEN=1）" >&2
     read -r -p "  PROXY_TOKEN  \`> " tok
     echo "$tok"
 }
 
 prompt_port() {
     local p
-    echo -e "${CYAN}设置监听端口${NC}"
+    echo -e "${CYAN}设置监听端口${NC}" >&2
     read -r -p "  PORT（默认 8788）> " p
     [[ -z "$p" ]] && p=8788
     echo "$p"
