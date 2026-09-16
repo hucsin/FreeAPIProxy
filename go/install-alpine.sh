@@ -35,6 +35,7 @@ RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC
 die() { printf '%b\n' "${RED}[ERROR]${NC} $*" >&2; exit 1; }
 log_info(){ printf '%b\n' "${GREEN}[INFO]${NC}  $*"; }
 log_warn(){ printf '%b\n' "${YELLOW}[WARN]${NC}  $*"; }
+log_err(){ printf '%b\n' "${RED}[ERROR]${NC} $*"; }
 log_step(){ printf '%b\n' "${CYAN}==>${NC} $*"; }
 
 have() { command -v "$1" >/dev/null 2>&1; }
