@@ -11,6 +11,7 @@
 - `node/node-server.js` — 独立 Node.js 版（无需 Cloudflare 环境）
 - `php/proxy.php` — 独立 PHP 版（可跑内置服务器或 Apache/Nginx+PHP-FPM）
 - `go/go-proxy.go` — 独立 Go 版（编译为单文件二进制，性能最好）
+- `android/` — Android APK 版（手机自身作为常驻出口代理，前台服务保活）
 
 ---
 
@@ -127,8 +128,44 @@ sudo bash install.sh      # 交互菜单；也可 bash install.sh 4 直达更新
 
 ---
 
+## Android 独立版（APK）
+
+把 Node 版整体搬进 Android 前台服务，手机自己就是一台常驻出口代理：
+
+```bash
+cd android
+bash build.sh        # 交互菜单：构建 / 安装 / 日志 / 前台服务自检 / 清理
+```
+
+应用名 **FreeAPI**，包名 `com.freeapi.proxy`，minSdk 26 / targetSdk 34，依赖 OkHttp（fetch 兜底路径）、
+协程（充电线 BLE）与打包进 APK 的 libzt（ZeroTier），APK 约 5.9 MB（其中 arm64 `libzt.so` 约 2 MB）。
+图标为蓝色渐变底 + 白色闪电（由 `FreeAPI.icns` 转成自适应图标）。
+
+界面为 5 个底部页签 —— **仪表盘 / 设置 / ZeroTier / 充电线 / 日志**（ZeroTier 居中）：
+配置与权限已合并为「设置」，每张卡片带图标并可折叠（折叠状态会记住）。
+
+### 设计要点
+- **协议逐条对齐 Node 版**：三种入站形态、三通道鉴权、请求/响应头过滤、CORS、不跟随重定向、
+  `FORCE_FETCH_HOSTS`、SSE 逐块流式、`proxy_error` 错误体全部一致。
+- **保活**：`specialUse` 前台服务（无运行时长上限）+ 唤醒锁续期 + `START_STICKY`
+  + 开机自启 + `AlarmManager` 守护巡检 + 常驻通知。
+- **ZeroTier 入站**：App 内直接跑 libzt 用户态协议栈，加入虚拟网络后同网络设备可直连本机代理端口，
+  无需安装官方 ZeroTier 客户端。
+- **充电线控制**（移植自 `autoLine`）：通过蓝牙按电量阈值自动通断外部 USB 充电开关，让长期插电的手机
+  不必一直满电；也可手动控制。与代理服务**分成两个前台服务**，互不依赖。
+- **差异**：剥掉 Node 会泄漏的 `X-Proxy-Mode`、自行重打分帧并支持 `Expect: 100-continue`、
+  CONNECT 额外接受 `Proxy-Authorization`（浏览器 / 系统代理标准姿势）、并发超限明确回 503。
+  详见 `android/README.md`。
+
+---
+
 ## 测试
 
-四个服务都能被 FreeAPI 管理后台当作代理使用：在「代理设置」新建一条
+五个服务都能被 FreeAPI 管理后台当作代理使用：在「代理设置」新建一条
 （Worker 选 CF Worker / Node 选 Node / PHP 选 PHP / Go 选 Go 类型，Base URL + Token），
 到「连接通道」为对应账号/API Key 选择该代理即可。
+
+Android 版安装后先点「启动代理」，再把 Base URL 指向 `http://<手机局域网IP>:8788`；
+本机联调可用 `adb forward tcp:18788 tcp:8788` 后直接请求 `http://127.0.0.1:18788`。
+
+
