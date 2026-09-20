@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  警示底色（用于「鉴权 = 全拒」这类必须被看见的成因说明）。
+  颜色直接内联为带透明度的 ARGB：#AARRGGBB —— 前两位 14 表示约 8% 不透明度，
+  这样浅色主题下叠在卡片白底上是一层淡淡的红，既醒目又不至于抢走正文的对比度。
+  描边同理，用 25% 不透明度的红勾一圈边界。
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#14E24B4A" />
+    <stroke android:width="1dp" android:color="#40E24B4A" />
+    <corners android:radius="8dp" />
+</shape>

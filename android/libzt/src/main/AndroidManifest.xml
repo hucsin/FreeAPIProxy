@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  libzt 封装模块的占位清单。
+  权限由 app 模块的清单统一声明（INTERNET / ACCESS_NETWORK_STATE 已具备）。
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" />

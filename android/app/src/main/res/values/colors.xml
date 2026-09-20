@@ -1,0 +1,24 @@
+<resources>
+    <!--
+      品牌蓝对齐 launcher 图标的渐变（FreeAPI.icns：#3DA3FF → #0756DD，中段约 #227CEF）。
+      brand      用于按钮底色 / 强调色 —— 白字对比度 4.65:1（≥4.5 达标）
+      brand_dark 用于状态栏 / 标题文字   —— 白底对比度 6.42:1
+    -->
+    <color name="brand">#1470E8</color>
+    <color name="brand_dark">#0B57CE</color>
+    <!-- 品牌色的浅底：按下态 / 高亮区块用，不与 page_bg（米灰）混同 -->
+    <color name="brand_soft">#E7F0FE</color>
+    <color name="ok">#1D9E75</color>
+    <color name="warn">#BA7517</color>
+    <color name="err">#E24B4A</color>
+    <color name="muted">#5F5E5A</color>
+    <!-- 输入框 placeholder 专用：比 muted 更浅，避免被误认成已填入的真实值 -->
+    <color name="hint">#A6A49B</color>
+    <!-- 底部导航未选中态（对齐微信底部 tab 的灰） -->
+    <color name="nav_unselected">#7F7F7F</color>
+    <color name="card_bg">#FFFFFF</color>
+    <color name="card_border">#D3D1C7</color>
+    <color name="page_bg">#F1EFE8</color>
+    <color name="log_bg">#2C2C2A</color>
+    <color name="log_fg">#E1F5EE</color>
+</resources>

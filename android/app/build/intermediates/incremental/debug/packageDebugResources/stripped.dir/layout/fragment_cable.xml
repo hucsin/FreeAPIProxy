@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <!--
+          充电线控制（功能移植自 autoLine）。
+          指令语义容易搞反，这里说明白：固件的 ON = 给线通电、OFF = 断电，
+          而「线得电」才等于「手机在充电」，所以：
+              电量低 → 发 OFF → 开始充电
+              电量高 → 发 ON  → 停止充电
+        -->
+
+        <!-- ============================= 状态与手动控制 ============================= -->
+        <com.freeapi.proxy.ui.widget.CardLayout
+            style="@style/Card"
+            app:cardIcon="@drawable/ic_tab_cable"
+            app:cardTitle="充电线状态">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/dotCable"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:background="@drawable/bg_dot" />
+
+                <TextView
+                    android:id="@+id/tvCableStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="未知"
+                    android:textColor="@color/brand_dark"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tvCableAuto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="自动关"
+                    android:textColor="@color/muted"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/card_border" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+                <TextView style="@style/StatKey" android:text="手机电量" />
+                <TextView android:id="@+id/tvCableBattery" style="@style/StatVal" android:text="—" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+                <TextView style="@style/StatKey" android:text="线缆回报" />
+                <TextView android:id="@+id/tvCableLine" style="@style/StatVal" android:text="未知" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+                <TextView style="@style/StatKey" android:text="上次检查" />
+                <TextView android:id="@+id/tvCableLastCheck" style="@style/StatVal" android:text="—" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+                <TextView style="@style/StatKey" android:text="下次检查" />
+                <TextView android:id="@+id/tvCableNextCheck" style="@style/StatVal" android:text="—" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+                <TextView style="@style/StatKey" android:text="最近动作" />
+                <TextView android:id="@+id/tvCableLastAction" style="@style/StatVal" android:text="—" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnCableCharge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="开始充电" />
+
+                <Button
+                    android:id="@+id/btnCableStop"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="停止充电" />
+
+                <Button
+                    android:id="@+id/btnCableQuery"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="查询状态" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvCableHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="点上面的按钮直接控制充电线（每次要连一次蓝牙，约 5～10 秒）。"
+                android:textColor="@color/muted"
+                android:textSize="11sp" />
+        </com.freeapi.proxy.ui.widget.CardLayout>
+
+        <!-- ============================= 自动控制 ============================= -->
+        <com.freeapi.proxy.ui.widget.CardLayout
+            style="@style/Card"
+            app:cardIcon="@drawable/ic_card_auto"
+            app:cardTitle="自动充电控制">
+
+            <Switch
+                android:id="@+id/swCableAuto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="按电量自动开关充电线"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tvCableAutoHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/muted"
+                android:textSize="11sp" />
+
+            <!-- 低阈值 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="低于等于此电量 → 开始充电"
+                        android:textColor="@color/brand_dark"
+                        android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/tvLowValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20%"
+                        android:textColor="@color/brand_dark"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/seekLow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="99" />
+            </LinearLayout>
+
+            <!-- 高阈值 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="高于等于此电量 → 停止充电"
+                        android:textColor="@color/brand_dark"
+                        android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/tvHighValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="95%"
+                        android:textColor="@color/brand_dark"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/seekHigh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="99" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvThreshold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="低于等于 20% 开始充电 · 高于等于 95% 停止充电"
+                android:textColor="@color/brand_dark"
+                android:textSize="12sp" />
+
+            <TextView style="@style/FieldLabel" android:text="检查周期" />
+
+            <LinearLayout
+                android:id="@+id/intervalRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+
+            <TextView
+                android:id="@+id/tvIntervalHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/muted"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/tvThresholdHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/muted"
+                android:textSize="11sp" />
+        </com.freeapi.proxy.ui.widget.CardLayout>
+
+        <!-- ============================= 定时充电时段 =============================
+             时段是加在「自动充电控制」外面的一层闸门：时段外一律断电，
+             只有电量掉到保命线以下才破例充电。时段内则照旧按上面的阈值跑。
+             起止时刻点一下弹系统 TimePickerDialog，不做自定义控件。 -->
+        <com.freeapi.proxy.ui.widget.CardLayout
+            style="@style/Card"
+            app:cardIcon="@drawable/ic_card_schedule"
+            app:cardTitle="定时充电时段">
+
+            <Switch
+                android:id="@+id/swSchedule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="只在指定时段内充电"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tvScheduleHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/muted"
+                android:textSize="11sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvScheduleStart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_chip"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="22:00"
+                    android:textColor="@color/brand_dark"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="至"
+                    android:textColor="@color/muted"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvScheduleEnd"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_chip"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="06:00"
+                    android:textColor="@color/brand_dark"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvScheduleState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/brand_dark"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvScheduleNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/muted"
+                android:textSize="11sp" />
+        </com.freeapi.proxy.ui.widget.CardLayout>
+
+        <!-- ============================= 连接设置 ============================= -->
+        <com.freeapi.proxy.ui.widget.CardLayout
+            style="@style/Card"
+            app:cardIcon="@drawable/ic_card_bluetooth"
+            app:cardTitle="连接设置">
+
+            <TextView style="@style/FieldLabel" android:text="蓝牙设备名（必须与固件广播的名字完全一致）" />
+            <EditText
+                android:id="@+id/etBleName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="USB-Switch"
+                android:inputType="textNoSuggestions"
+                android:maxLines="1"
+                android:textColorHint="@color/hint"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btnBleSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="保存设备名" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="固件（USB-Switch）同时只允许一个客户端连接，所以手机上别的 App 若正连着它，这里会扫描不到 —— 表现为「扫描超时，没找到设备」。"
+                android:textColor="@color/muted"
+                android:textSize="11sp" />
+        </com.freeapi.proxy.ui.widget.CardLayout>
+
+        <!-- ============================= 最近记录 ============================= -->
+        <com.freeapi.proxy.ui.widget.CardLayout
+            style="@style/Card"
+            app:cardIcon="@drawable/ic_tab_log"
+            app:cardTitle="最近记录">
+
+            <TextView
+                android:id="@+id/tvCableLog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_log"
+                android:fontFamily="monospace"
+                android:padding="8dp"
+                android:text="（暂无记录）"
+                android:textColor="@color/log_fg"
+                android:textSize="11sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnCableLogClear"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="清空本页记录" />
+
+                <Button
+                    android:id="@+id/btnCableLogFull"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="看完整日志" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="这里只保留充电线自己的最近 60 条；同样的内容也会带 [充电线] 前缀写进「日志」页与 logcat（adb logcat -s FreeAPI:V）。"
+                android:textColor="@color/muted"
+                android:textSize="11sp" />
+        </com.freeapi.proxy.ui.widget.CardLayout>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  「充电线」页签图标：USB 插头。
+  刻意不用闪电 —— 闪电已经是本 App 的 launcher / 通知图标，再用在页签上
+  会让人以为它通向"代理开关"，而不是"外接充电线控制"。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M15 7v4h1v2h-3V5h2l-3-4-3 4h2v8H8v-2.07c0.7-0.37 1.2-1.1 1.2-1.93 0-1.21-0.99-2.2-2.2-2.2S4.8 7.79 4.8 9c0 0.83 0.5 1.56 1.2 1.93V13c0 0.55 0.45 1 1 1h3v3.07c-0.7 0.37-1.2 1.1-1.2 1.93 0 1.21 0.99 2.2 2.2 2.2s2.2-0.99 2.2-2.2c0-0.83-0.5-1.56-1.2-1.93V14h3c0.55 0 1-0.45 1-1v-2h1V7h-4z" />
+</vector>

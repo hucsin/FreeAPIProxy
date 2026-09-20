@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <color name="brand">#1470E8</color>
+    <color name="brand_dark">#0B57CE</color>
+    <color name="brand_soft">#E7F0FE</color>
+    <color name="card_bg">#FFFFFF</color>
+    <color name="card_border">#D3D1C7</color>
+    <color name="err">#E24B4A</color>
+    <color name="hint">#A6A49B</color>
+    <color name="log_bg">#2C2C2A</color>
+    <color name="log_fg">#E1F5EE</color>
+    <color name="muted">#5F5E5A</color>
+    <color name="nav_unselected">#7F7F7F</color>
+    <color name="ok">#1D9E75</color>
+    <color name="page_bg">#F1EFE8</color>
+    <color name="warn">#BA7517</color>
+    <string name="app_name">FreeAPI</string>
+    <string name="btn_apply">保存并应用</string>
+    <string name="btn_clear_log">清空日志</string>
+    <string name="btn_copy_log">复制日志</string>
+    <string name="btn_restart">重启</string>
+    <string name="btn_start">启动代理</string>
+    <string name="btn_stop">停止代理</string>
+    <string name="cable_notif_channel_desc">按电量自动控制外接充电线的通断</string>
+    <string name="cable_notif_channel_name">FreeAPI 充电线</string>
+    <string name="cable_notif_title">充电线</string>
+    <string name="notif_channel_desc">保持出口代理常驻运行</string>
+    <string name="notif_channel_name">FreeAPI 服务</string>
+    <string name="notif_title">FreeAPI</string>
+    <string name="sec_config">代理配置</string>
+    <string name="sec_log">运行日志</string>
+    <string name="sec_permission">权限与保活</string>
+    <string name="sec_status">运行状态</string>
+    <style name="Card">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_card</item>
+        <item name="android:padding">14dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="FieldLabel">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/muted</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+    <style name="SectionTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/brand_dark</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+    <style name="StatKey">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/muted</item>
+    </style>
+    <style name="StatVal">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/brand_dark</item>
+        <item name="android:gravity">end</item>
+    </style>
+    <style name="Theme.FreeAPIProxy" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/brand</item>
+        <item name="colorPrimaryDark">@color/brand_dark</item>
+        <item name="colorAccent">@color/brand</item>
+        <item name="android:windowBackground">@color/page_bg</item>
+        <item name="android:statusBarColor" ns1:targetApi="21">@color/brand_dark</item>
+    </style>
+    <declare-styleable name="CardLayout">
+        
+        <attr format="string" name="cardTitle"/>
+        
+        <attr format="reference" name="cardIcon"/>
+        
+        <attr format="boolean" name="cardCollapsible"/>
+        
+        <attr format="boolean" name="cardFillBody"/>
+        
+        <attr format="string" name="cardKey"/>
+    </declare-styleable>
+</resources>

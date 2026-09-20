@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <!-- ============================ 节点状态 ============================ -->
+        <com.freeapi.proxy.ui.widget.CardLayout
+            style="@style/Card"
+            app:cardIcon="@drawable/ic_tab_zerotier"
+            app:cardTitle="ZeroTier 节点">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/dotZt"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:background="@drawable/bg_dot" />
+
+                <TextView
+                    android:id="@+id/tvZtStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="未启动"
+                    android:textColor="@color/brand_dark"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/btnZtToggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="启动节点" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/card_border" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+                <TextView style="@style/StatKey" android:text="节点 ID" />
+                <TextView android:id="@+id/tvZtNodeId" style="@style/StatVal" android:text="—" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+                <TextView style="@style/StatKey" android:text="代理监听端口" />
+                <TextView android:id="@+id/tvZtPort" style="@style/StatVal" android:text="—" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+                <TextView style="@style/StatKey" android:text="节点 UDP 端口" />
+                <TextView android:id="@+id/tvZtNodePort" style="@style/StatVal" android:text="—" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+                <TextView style="@style/StatKey" android:text="ZeroTier 入站" />
+                <TextView android:id="@+id/tvZtInbound" style="@style/StatVal" android:text="—" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+                <TextView style="@style/StatKey" android:text="已加入网络" />
+                <TextView android:id="@+id/tvZtNetCount" style="@style/StatVal" android:text="0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+                <TextView style="@style/StatKey" android:text="入站监听" />
+                <TextView android:id="@+id/tvZtListen" style="@style/StatVal" android:text="—" />
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/swZtAutoStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="节点随代理自动启动"
+                android:textSize="13sp" />
+        </com.freeapi.proxy.ui.widget.CardLayout>
+
+        <!-- ============================ 加入网络 ============================ -->
+        <com.freeapi.proxy.ui.widget.CardLayout
+            style="@style/Card"
+            app:cardIcon="@drawable/ic_card_network"
+            app:cardTitle="加入网络">
+
+            <TextView style="@style/FieldLabel" android:text="Network ID（16 位十六进制，在 my.zerotier.com 创建网络后获取）" />
+            <EditText
+                android:id="@+id/etNetId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="例如 8056c2e21c000001"
+                android:inputType="textNoSuggestions"
+                android:maxLines="1"
+                android:textColorHint="@color/hint"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnJoin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="加入" />
+
+                <Button
+                    android:id="@+id/btnLeave"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="离开" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvZtNets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_log"
+                android:fontFamily="monospace"
+                android:padding="8dp"
+                android:text="（尚未加入任何网络）"
+                android:textColor="@color/log_fg"
+                android:textSize="11sp" />
+        </com.freeapi.proxy.ui.widget.CardLayout>
+
+        <!-- ============================ 访问地址 ============================ -->
+        <com.freeapi.proxy.ui.widget.CardLayout
+            style="@style/Card"
+            app:cardIcon="@drawable/ic_card_link"
+            app:cardTitle="ZeroTier 访问地址">
+
+            <TextView
+                android:id="@+id/tvZtEndpoint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_log"
+                android:padding="8dp"
+                android:text="（加入网络后显示）"
+                android:textColor="@color/log_fg"
+                android:textIsSelectable="true"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btnCopyZtEndpoint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="复制地址" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="其它设备用这个地址访问本机代理：http://&lt;虚拟IP&gt;:&lt;代理端口&gt;"
+                android:textColor="@color/muted"
+                android:textSize="11sp" />
+        </com.freeapi.proxy.ui.widget.CardLayout>
+
+        <!-- ============================ 使用前提 ============================ -->
+        <com.freeapi.proxy.ui.widget.CardLayout
+            style="@style/Card"
+            app:cardIcon="@drawable/ic_card_help"
+            app:cardTitle="使用前提（缺一不通）">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. 在 my.zerotier.com 创建网络，拿到 16 位 Network ID&#10;2. 网络默认是 Private，新节点加入后要在控制台勾选 Auth 授权&#10;3. 其它设备（电脑 / 手机）也要加入同一网络并被授权&#10;4. 网络需要有 Managed Route（默认已给 10.147.20.0/24）"
+                android:textColor="@color/muted"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="排查顺序：① 控制台里本节点是否已授权；② 各设备是否在同一网络；③ 手机息屏后是否被 ROM 冻结（到「设置」页检查保活三项）。"
+                android:textColor="@color/muted"
+                android:textSize="12sp" />
+        </com.freeapi.proxy.ui.widget.CardLayout>
+
+        <TextView
+            android:id="@+id/tvZtNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="16dp"
+            android:text="状态：等待接入 libzt 原生库。"
+            android:textColor="@color/warn"
+            android:textSize="11sp" />
+    </LinearLayout>
+</ScrollView>

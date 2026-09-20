@@ -1,0 +1,178 @@
+[
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_bg_dot.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/bg_dot.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/layout_fragment_cable.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/fragment_cable.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_ic_chevron.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/ic_chevron.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/mipmap-xxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_ic_card_help.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/ic_card_help.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_ic_card_network.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/ic_card_network.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/layout_fragment_config.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/fragment_config.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_bg_warn.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/bg_warn.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/mipmap-xxxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_ic_tab_dashboard.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/ic_tab_dashboard.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/mipmap-hdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_bg_log.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/bg_log.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/mipmap-mdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_ic_stat_proxy.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/ic_stat_proxy.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/layout_fragment_dashboard.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/fragment_dashboard.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_bg_card.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/bg_card.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/layout_fragment_zerotier.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/fragment_zerotier.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_ic_tab_log.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/ic_tab_log.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/color_chip_text.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/color/chip_text.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_ic_card_bluetooth.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/ic_card_bluetooth.xml"
+    },
+    {
+        "merged": "com.freeapi.proxy.app-merged_res-20:/drawable_ic_card_schedule.xml.flat",
+        "source": "com.freeapi.proxy.app-main-22:/drawable/ic_card_schedule.xml"
+    },
+    {
+        "merged": "com.freeapi.proxy.app-merged_res-20:/layout_fragment_cable.xml.flat",
+        "source": "com.freeapi.proxy.app-main-22:/layout/fragment_cable.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/layout_activity_main.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_ic_tab_config.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/ic_tab_config.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_bg_chip.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/bg_chip.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_ic_tab_cable.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/ic_tab_cable.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/layout_fragment_settings.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/fragment_settings.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/mipmap-xhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_ic_tab_zerotier.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/ic_tab_zerotier.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_ic_card_link.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/ic_card_link.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_ic_card_auto.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/ic_card_auto.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_ic_tab_permission.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/ic_tab_permission.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_ic_card_battery.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/ic_card_battery.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/layout_fragment_permission.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/fragment_permission.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/layout_fragment_log.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/fragment_log.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-merged_res-20:/drawable_ic_launcher_background.xml.flat",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/drawable/ic_launcher_background.xml"
+    }
+]

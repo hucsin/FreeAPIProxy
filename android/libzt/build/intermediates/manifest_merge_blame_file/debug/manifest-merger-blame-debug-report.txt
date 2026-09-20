@@ -1,0 +1,11 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<!--
+3  libzt 封装模块的占位清单。
+4  权限由 app 模块的清单统一声明（INTERNET / ACCESS_NETWORK_STATE 已具备）。
+5-->
+6<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+7    package="com.zerotier.sockets" >
+8
+9    <uses-sdk android:minSdkVersion="26" />
+10
+11</manifest>

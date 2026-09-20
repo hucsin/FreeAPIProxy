@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <!-- ============================= 运行状态 =============================
+             标题与图标由 CardLayout 生成，点标题栏可折叠（状态会记住）。 -->
+        <com.freeapi.proxy.ui.widget.CardLayout
+            style="@style/Card"
+            app:cardIcon="@drawable/ic_tab_dashboard"
+            app:cardTitle="@string/sec_status">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/dotStatus"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:background="@drawable/bg_dot" />
+
+                <TextView
+                    android:id="@+id/tvStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="已停止"
+                    android:textColor="@color/brand_dark"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tvUptime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="—"
+                    android:textColor="@color/muted"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="监听端口" android:textColor="@color/muted" android:textSize="11sp" />
+                    <TextView android:id="@+id/tvPort" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="8788"
+                        android:textColor="@color/brand_dark" android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="转发模式" android:textColor="@color/muted" android:textSize="11sp" />
+                    <TextView android:id="@+id/tvMode" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="auto"
+                        android:textColor="@color/brand_dark" android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="鉴权" android:textColor="@color/muted" android:textSize="11sp" />
+                    <TextView android:id="@+id/tvAuth" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="—"
+                        android:textColor="@color/brand_dark" android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--
+              鉴权为「全拒」时的成因说明。
+              只在 token 为空且未允许无鉴权时出现 —— 此时所有请求（含 ZeroTier
+              进来的）都会 401，而用户看到的往往只是"对端访问不了"，很容易误判成网络问题。
+            -->
+            <TextView
+                android:id="@+id/tvAuthWarn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_warn"
+                android:padding="8dp"
+                android:textColor="@color/err"
+                android:textSize="11sp"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/card_border" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+                <TextView style="@style/StatKey" android:text="活跃连接 / 峰值" />
+                <TextView android:id="@+id/tvActive" style="@style/StatVal" android:text="0 / 0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+                <TextView style="@style/StatKey" android:text="累计连接 / 请求" />
+                <TextView android:id="@+id/tvRequests" style="@style/StatVal" android:text="0 / 0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+                <TextView style="@style/StatKey" android:text="失败 / 鉴权拒绝" />
+                <TextView android:id="@+id/tvFailed" style="@style/StatVal" android:text="0 / 0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+                <TextView style="@style/StatKey" android:text="socket / fetch / 降级" />
+                <TextView android:id="@+id/tvRoute" style="@style/StatVal" android:text="0 / 0 / 0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+                <TextView style="@style/StatKey" android:text="上行 / 下行" />
+                <TextView android:id="@+id/tvBytes" style="@style/StatVal" android:text="0 B / 0 B" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+                <TextView style="@style/StatKey" android:text="CONNECT 隧道" />
+                <TextView android:id="@+id/tvTunnels" style="@style/StatVal" android:text="0" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvEndpoint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_log"
+                android:padding="8dp"
+                android:text="http://127.0.0.1:8788"
+                android:textColor="@color/log_fg"
+                android:textIsSelectable="true"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvLastError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/err"
+                android:textSize="12sp"
+                android:visibility="gone" />
+        </com.freeapi.proxy.ui.widget.CardLayout>
+
+        <!-- ============================= 控制 ============================= -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnToggle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btn_start" />
+
+            <Button
+                android:id="@+id/btnRestart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="@string/btn_restart" />
+
+            <Button
+                android:id="@+id/btnResetStats"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="清零统计" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="16dp"
+            android:text="提示：这里显示的是本机 / 局域网访问地址；ZeroTier 虚拟网络上的访问地址见「ZeroTier」页。"
+            android:textColor="@color/muted"
+            android:textSize="11sp" />
+    </LinearLayout>
+</ScrollView>

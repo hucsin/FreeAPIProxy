@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  通知栏小图标：闪电。
+  与 launcher 图标同源（同一套顶点，等比缩放到 24dp 画布，内容高 19 以留出边距）。
+  注意 Android 5+ 只取本图标的 alpha 通道作为蒙版，颜色由系统决定，这里是白色只是为了
+  在通知折叠栏里显示正常；不要在这里放彩色内容，会被系统涂成单色。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M9.02,2.5 L19.71,15.95 L12.99,15.97 L15.36,21.5 L4.29,12.01 L10.61,11.99 Z" />
+</vector>

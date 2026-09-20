@@ -1,0 +1,38 @@
+[
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-mergeDebugResources-19:/layout/fragment_settings.xml",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/fragment_settings.xml"
+    },
+    {
+        "merged": "com.freeapi.proxy.app-mergeDebugResources-19:/layout/fragment_cable.xml",
+        "source": "com.freeapi.proxy.app-main-22:/layout/fragment_cable.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-mergeDebugResources-19:/layout/fragment_cable.xml",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/fragment_cable.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-mergeDebugResources-19:/layout/fragment_config.xml",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/fragment_config.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-mergeDebugResources-19:/layout/activity_main.xml",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-mergeDebugResources-19:/layout/fragment_dashboard.xml",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/fragment_dashboard.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-mergeDebugResources-19:/layout/fragment_zerotier.xml",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/fragment_zerotier.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-mergeDebugResources-19:/layout/fragment_permission.xml",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/fragment_permission.xml"
+    },
+    {
+        "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-mergeDebugResources-19:/layout/fragment_log.xml",
+        "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/fragment_log.xml"
+    }
+]

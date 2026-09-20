@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">FreeAPI</string>
+
+    <string name="sec_status">运行状态</string>
+    <string name="sec_config">代理配置</string>
+    <string name="sec_permission">权限与保活</string>
+    <string name="sec_log">运行日志</string>
+
+    <string name="btn_start">启动代理</string>
+    <string name="btn_stop">停止代理</string>
+    <string name="btn_restart">重启</string>
+    <string name="btn_apply">保存并应用</string>
+    <string name="btn_clear_log">清空日志</string>
+    <string name="btn_copy_log">复制日志</string>
+
+    <string name="notif_channel_name">FreeAPI 服务</string>
+    <string name="notif_channel_desc">保持出口代理常驻运行</string>
+    <string name="notif_title">FreeAPI</string>
+
+    <!-- 充电线（蓝牙控制外部充电开关） -->
+    <string name="cable_notif_channel_name">FreeAPI 充电线</string>
+    <string name="cable_notif_channel_desc">按电量自动控制外接充电线的通断</string>
+    <string name="cable_notif_title">充电线</string>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+      CardLayout：带「图标 + 标题 + 折叠箭头」的统一卡片容器。
+
+      用它的原因：卡片头部原先在每个布局里各写一遍（style=SectionTitle 的 TextView），
+      要加图标和折叠就得改 N 处且容易写歪。改成自定义 View 后头部由代码生成，
+      布局里只声明属性，标题样式/点击区/箭头状态天然一致。
+
+      注意 cardKey：折叠状态是按它持久化的。默认取 cardTitle，
+      所以**同名卡片会共享折叠状态** —— 真要放两张同名卡片时，显式指定 cardKey。
+    -->
+    <declare-styleable name="CardLayout">
+        <!-- 卡片标题（必填，否则头部只剩一个箭头） -->
+        <attr name="cardTitle" format="string" />
+        <!-- 标题左侧的图标 -->
+        <attr name="cardIcon" format="reference" />
+        <!-- 是否可折叠，默认 true -->
+        <attr name="cardCollapsible" format="boolean" />
+        <!--
+          内容区是否铺满剩余高度（高度 0dp + weight=1）。
+          默认 false 即 wrap_content —— 只有「日志」这种要靠 weight 撑满整屏的卡片才需要 true，
+          否则在固定高度的父容器里 MATCH_PARENT 会把头部挤出可视区。
+          另外这类卡片折叠时会把自身的 weight 一并收掉，避免留下一张只有标题的大白卡。
+        -->
+        <attr name="cardFillBody" format="boolean" />
+        <!-- 折叠状态的持久化键，默认使用 cardTitle -->
+        <attr name="cardKey" format="string" />
+    </declare-styleable>
+
+</resources>

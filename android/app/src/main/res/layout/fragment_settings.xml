@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <!--
+          这一页原来是「配置」和「权限」两个页签。
+          合并的理由：两者都是"把事情配好"的一次性动作，且互相关联 ——
+          代理监听要能持久，前提就是权限那些项都放行了；分成两页反而要求用户来回对照。
+        -->
+
+        <!-- ============================= 代理配置 ============================= -->
+        <com.freeapi.proxy.ui.widget.CardLayout
+            style="@style/Card"
+            app:cardIcon="@drawable/ic_tab_config"
+            app:cardTitle="@string/sec_config">
+
+            <TextView style="@style/FieldLabel" android:text="监听端口（1024–65535）" />
+            <EditText
+                android:id="@+id/etPort"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="14sp" />
+
+            <TextView style="@style/FieldLabel" android:text="鉴权 Token（留空则默认拒绝所有请求）" />
+            <EditText
+                android:id="@+id/etToken"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textVisiblePassword"
+                android:maxLines="1"
+                android:textSize="14sp" />
+
+            <TextView style="@style/FieldLabel" android:text="转发模式" />
+            <Spinner
+                android:id="@+id/spMode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView style="@style/FieldLabel" android:text="并发上限（8–2048）" />
+                    <EditText
+                        android:id="@+id/etConcurrency"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView style="@style/FieldLabel" android:text="空闲超时（秒）" />
+                    <EditText
+                        android:id="@+id/etIdle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView style="@style/FieldLabel" android:text="连接超时（秒）" />
+                    <EditText
+                        android:id="@+id/etConnect"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView style="@style/FieldLabel" android:text="覆盖 User-Agent（留空则原样透传客户端）" />
+            <EditText
+                android:id="@+id/etUa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Mozilla/5.0 (Linux; Android 14) …"
+                android:inputType="text"
+                android:maxLines="2"
+                android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/swAllowOpen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="允许无鉴权访问（Token 为空时放行一切，危险）"
+                android:textSize="13sp" />
+
+            <Switch
+                android:id="@+id/swAutoStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="开机自动启动"
+                android:textSize="13sp" />
+
+            <Switch
+                android:id="@+id/swWatchdog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="守护巡检（每 15 分钟检查一次，掉线自动拉起）"
+                android:textSize="13sp" />
+
+            <Switch
+                android:id="@+id/swWakeLock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="持有唤醒锁（息屏后不被挂起，但会持续耗电）"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/btnApply"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/btn_apply" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="端口或并发上限改变会自动重启监听，其它项即时生效。"
+                android:textColor="@color/muted"
+                android:textSize="11sp" />
+        </com.freeapi.proxy.ui.widget.CardLayout>
+
+        <!-- ============================= 权限与保活 ============================= -->
+        <com.freeapi.proxy.ui.widget.CardLayout
+            style="@style/Card"
+            app:cardIcon="@drawable/ic_tab_permission"
+            app:cardTitle="@string/sec_permission">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView android:text="通知权限" android:textColor="@color/brand_dark"
+                        android:textSize="13sp" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView android:id="@+id/tvPermNotif" android:text="—"
+                        android:textColor="@color/muted" android:textSize="11sp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+                <Button android:id="@+id/btnPermNotif" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="去授权" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView android:text="电池优化白名单" android:textColor="@color/brand_dark"
+                        android:textSize="13sp" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView android:id="@+id/tvPermBattery" android:text="—"
+                        android:textColor="@color/muted" android:textSize="11sp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+                <Button android:id="@+id/btnPermBattery" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="去授权" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView android:text="省电策略 / 后台运行" android:textColor="@color/brand_dark"
+                        android:textSize="13sp" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView android:id="@+id/tvPermPower" android:text="—"
+                        android:textColor="@color/muted" android:textSize="11sp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+                <Button android:id="@+id/btnPermPower" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="去设置" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView android:text="自启动管理" android:textColor="@color/brand_dark"
+                        android:textSize="13sp" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView android:id="@+id/tvPermAuto" android:text="国产 ROM 需手动放行"
+                        android:textColor="@color/muted" android:textSize="11sp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+                <Button android:id="@+id/btnPermAuto" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="去设置" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView android:text="蓝牙权限（充电线）" android:textColor="@color/brand_dark"
+                        android:textSize="13sp" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView android:id="@+id/tvPermBle" android:text="—"
+                        android:textColor="@color/muted" android:textSize="11sp"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+                <Button android:id="@+id/btnPermBle" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="去授权" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvPermHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/warn"
+                android:textSize="11sp" />
+        </com.freeapi.proxy.ui.widget.CardLayout>
+
+        <!-- ============================= 说明 ============================= -->
+        <com.freeapi.proxy.ui.widget.CardLayout
+            style="@style/Card"
+            app:cardIcon="@drawable/ic_card_help"
+            app:cardTitle="为什么需要这些权限">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="代理服务跑在前台服务里，靠四件事保活：常驻通知（告诉系统「我在干正事」）、电池优化白名单（避免被 Doze 冻结）、省电策略放行（ROM 私有的后台管控）、自启动放行（重启后自动恢复）。四项缺一，长时间息屏后就可能被系统回收。"
+                android:textColor="@color/muted"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="其中「省电策略」与「电池优化白名单」是两回事：前者是厂商自己加的后台管控，只申请后者在国产 ROM 上照样会被掐。启动失败并提示「前台服务启动被拒」时，通常是缺电池优化白名单——Android 12 起系统会拒绝后台拉起前台服务。"
+                android:textColor="@color/muted"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="蓝牙权限只在用「充电线」页时需要。App 只按设备名扫描充电线控制器，不读取位置信息（清单里已声明 neverForLocation），因此 Android 12 及以上不会索取定位权限。"
+                android:textColor="@color/muted"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="小米 / 红米（MIUI、HyperOS）用户特别注意：「一键清理」和从最近任务划掉卡片等价于 force-stop——会杀掉进程、撤销全部守护闹钟，之后本应用收不到任何广播和闹钟，只能手动再打开一次才能恢复。请把省电策略设为「无限制」，并在最近任务里长按本应用卡片点锁图标加锁，就不会再被清理。"
+                android:textColor="@color/muted"
+                android:textSize="12sp" />
+        </com.freeapi.proxy.ui.widget.CardLayout>
+    </LinearLayout>
+</ScrollView>
