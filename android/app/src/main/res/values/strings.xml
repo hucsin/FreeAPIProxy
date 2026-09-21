@@ -12,6 +12,7 @@
     <string name="btn_apply">保存并应用</string>
     <string name="btn_clear_log">清空日志</string>
     <string name="btn_copy_log">复制日志</string>
+    <string name="btn_update">检查并更新</string>
 
     <string name="notif_channel_name">FreeAPI 服务</string>
     <string name="notif_channel_desc">保持出口代理常驻运行</string>

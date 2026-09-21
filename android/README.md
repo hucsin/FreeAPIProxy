@@ -112,7 +112,8 @@ export ANDROID_HOME=~/Library/Android/sdk
 </com.freeapi.proxy.ui.widget.CardLayout>
 ```
 
-- 点标题栏（整条都是点击区，不是只点那个 15dp 的小箭头）即可折叠，箭头随之翻转，`AutoTransition` 做高度/透明度过渡。
+- 点标题栏（整条都是点击区，不是只点那个 15dp 的小箭头）即可折叠，箭头随之翻转。
+- **折叠/展开无动画**（2026-09-20 按需求去掉）：原先是 `TransitionManager.beginDelayedTransition(AutoTransition)` 做高度/透明度过渡 + `chevron.animate().rotation()` 转箭头，现在两处都已移除，可见性直接切换。原因是一屏内卡片密集，多条过渡同时跑会让整屏「晃」一下，观感反而更卡。**要加回来就两处一起加**，只转箭头会显得突兀。
 - 折叠状态按 `cardKey`（默认取标题）持久化在 `shared_prefs/freeapi_ui.xml`，**只记"已折叠"**，默认展开 —— 这样新加的卡片永远不会因为键名对不上而莫名藏起来。
 - `app:cardFillBody="true"` 给需要 `weight` 撑满整屏的卡片（日志页）用。这类卡片折叠时会把**自身的 weight 一并收掉**，否则会留下一张只有标题、下面一片空白的大白卡。
 
@@ -120,7 +121,7 @@ export ANDROID_HOME=~/Library/Android/sdk
 > 1. **`onFinishInflate()` 里拿不到 `layoutParams`。** LayoutInflater 的顺序是 `createViewFromTag → generateLayoutParams → rInflateChildren（触发 onFinishInflate）→ addView`，`addView` 才真正设置它。早读一步会拿到 `null`，于是「折叠后收起来」**静默失效**（现象就是上面那张大白卡）。所以原始占位参数在 `onAttachedToWindow()` 里补记。
 > 2. **内容容器由 `CardLayout` 接管 `layoutParams`**，所以卡片内部不能用依赖"直接父容器"的属性（如 `layout_weight`）—— 需要铺满时走 `cardFillBody`。
 
-![折叠态](docs/ui-06-settings-collapsed.png)
+![折叠态](docs/ui-06-settings-collapsed.png) · [折叠](docs/ui-11-card-collapsed.png) / [展开](docs/ui-12-card-expanded.png) 对照
 
 ### 为什么把「配置」和「权限」合并成「设置」
 

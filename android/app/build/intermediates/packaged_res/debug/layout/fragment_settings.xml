@@ -285,6 +285,31 @@
                 android:textSize="11sp" />
         </com.freeapi.proxy.ui.widget.CardLayout>
 
+        <!-- ============================= 自动更新 ============================= -->
+        <com.freeapi.proxy.ui.widget.CardLayout
+            style="@style/Card"
+            app:cardIcon="@drawable/ic_card_auto"
+            app:cardTitle="自动更新">
+
+            <TextView style="@style/FieldLabel"
+                android:text="从下载源拉取最新安装包并覆盖更新。首次使用需在系统里授权「允许安装未知应用」——没授权会先跳到系统设置，回来再继续。" />
+
+            <Button
+                android:id="@+id/btnUpdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/btn_update" />
+
+            <TextView
+                android:id="@+id/tvUpdateStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/muted"
+                android:textSize="11sp" />
+        </com.freeapi.proxy.ui.widget.CardLayout>
+
         <!-- ============================= 说明 ============================= -->
         <com.freeapi.proxy.ui.widget.CardLayout
             style="@style/Card"

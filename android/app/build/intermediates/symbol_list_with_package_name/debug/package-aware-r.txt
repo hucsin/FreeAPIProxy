@@ -766,6 +766,7 @@ id btnPermPower
 id btnResetStats
 id btnRestart
 id btnToggle
+id btnUpdate
 id btnZtToggle
 id buttonPanel
 id center_vertical
@@ -935,6 +936,7 @@ id tvStatus
 id tvThreshold
 id tvThresholdHint
 id tvTunnels
+id tvUpdateStatus
 id tvUptime
 id tvZtEndpoint
 id tvZtInbound
@@ -1053,6 +1055,7 @@ string btn_copy_log
 string btn_restart
 string btn_start
 string btn_stop
+string btn_update
 string cable_notif_channel_desc
 string cable_notif_channel_name
 string cable_notif_title
@@ -1476,3 +1479,4 @@ styleable Toolbar android_gravity android_minHeight buttonGravity collapseConten
 styleable View android_theme android_focusable paddingEnd paddingStart theme
 styleable ViewBackgroundHelper android_background backgroundTint backgroundTintMode
 styleable ViewStubCompat android_id android_layout android_inflatedId
+xml file_paths

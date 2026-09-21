@@ -42,6 +42,9 @@ public final class FragmentSettingsBinding implements ViewBinding {
   public final Button btnPermPower;
 
   @NonNull
+  public final Button btnUpdate;
+
+  @NonNull
   public final EditText etConcurrency;
 
   @NonNull
@@ -92,15 +95,19 @@ public final class FragmentSettingsBinding implements ViewBinding {
   @NonNull
   public final TextView tvPermPower;
 
+  @NonNull
+  public final TextView tvUpdateStatus;
+
   private FragmentSettingsBinding(@NonNull ScrollView rootView, @NonNull Button btnApply,
       @NonNull Button btnPermAuto, @NonNull Button btnPermBattery, @NonNull Button btnPermBle,
-      @NonNull Button btnPermNotif, @NonNull Button btnPermPower, @NonNull EditText etConcurrency,
-      @NonNull EditText etConnect, @NonNull EditText etIdle, @NonNull EditText etPort,
-      @NonNull EditText etToken, @NonNull EditText etUa, @NonNull Spinner spMode,
-      @NonNull Switch swAllowOpen, @NonNull Switch swAutoStart, @NonNull Switch swWakeLock,
-      @NonNull Switch swWatchdog, @NonNull TextView tvPermAuto, @NonNull TextView tvPermBattery,
-      @NonNull TextView tvPermBle, @NonNull TextView tvPermHint, @NonNull TextView tvPermNotif,
-      @NonNull TextView tvPermPower) {
+      @NonNull Button btnPermNotif, @NonNull Button btnPermPower, @NonNull Button btnUpdate,
+      @NonNull EditText etConcurrency, @NonNull EditText etConnect, @NonNull EditText etIdle,
+      @NonNull EditText etPort, @NonNull EditText etToken, @NonNull EditText etUa,
+      @NonNull Spinner spMode, @NonNull Switch swAllowOpen, @NonNull Switch swAutoStart,
+      @NonNull Switch swWakeLock, @NonNull Switch swWatchdog, @NonNull TextView tvPermAuto,
+      @NonNull TextView tvPermBattery, @NonNull TextView tvPermBle, @NonNull TextView tvPermHint,
+      @NonNull TextView tvPermNotif, @NonNull TextView tvPermPower,
+      @NonNull TextView tvUpdateStatus) {
     this.rootView = rootView;
     this.btnApply = btnApply;
     this.btnPermAuto = btnPermAuto;
@@ -108,6 +115,7 @@ public final class FragmentSettingsBinding implements ViewBinding {
     this.btnPermBle = btnPermBle;
     this.btnPermNotif = btnPermNotif;
     this.btnPermPower = btnPermPower;
+    this.btnUpdate = btnUpdate;
     this.etConcurrency = etConcurrency;
     this.etConnect = etConnect;
     this.etIdle = etIdle;
@@ -125,6 +133,7 @@ public final class FragmentSettingsBinding implements ViewBinding {
     this.tvPermHint = tvPermHint;
     this.tvPermNotif = tvPermNotif;
     this.tvPermPower = tvPermPower;
+    this.tvUpdateStatus = tvUpdateStatus;
   }
 
   @Override
@@ -187,6 +196,12 @@ public final class FragmentSettingsBinding implements ViewBinding {
       id = R.id.btnPermPower;
       Button btnPermPower = ViewBindings.findChildViewById(rootView, id);
       if (btnPermPower == null) {
+        break missingId;
+      }
+
+      id = R.id.btnUpdate;
+      Button btnUpdate = ViewBindings.findChildViewById(rootView, id);
+      if (btnUpdate == null) {
         break missingId;
       }
 
@@ -292,10 +307,17 @@ public final class FragmentSettingsBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tvUpdateStatus;
+      TextView tvUpdateStatus = ViewBindings.findChildViewById(rootView, id);
+      if (tvUpdateStatus == null) {
+        break missingId;
+      }
+
       return new FragmentSettingsBinding((ScrollView) rootView, btnApply, btnPermAuto,
-          btnPermBattery, btnPermBle, btnPermNotif, btnPermPower, etConcurrency, etConnect, etIdle,
-          etPort, etToken, etUa, spMode, swAllowOpen, swAutoStart, swWakeLock, swWatchdog,
-          tvPermAuto, tvPermBattery, tvPermBle, tvPermHint, tvPermNotif, tvPermPower);
+          btnPermBattery, btnPermBle, btnPermNotif, btnPermPower, btnUpdate, etConcurrency,
+          etConnect, etIdle, etPort, etToken, etUa, spMode, swAllowOpen, swAutoStart, swWakeLock,
+          swWatchdog, tvPermAuto, tvPermBattery, tvPermBle, tvPermHint, tvPermNotif, tvPermPower,
+          tvUpdateStatus);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

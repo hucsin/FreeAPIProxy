@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  自动更新用：把保存到应用私有目录（外部私有下载目录 / 缓存）的 APK
+  通过 FileProvider 暴露给系统安装器。路径需与 AppUpdater.targetFile 对应。
+-->
+<paths>
+    <!-- getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) ，即外部私有目录下的 Download/ -->
+    <external-files-path name="downloads" path="Download/" />
+    <!-- getCacheDir() 兜底 -->
+    <cache-path name="cache" path="." />
+</paths>

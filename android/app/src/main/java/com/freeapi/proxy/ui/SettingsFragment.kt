@@ -6,11 +6,16 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.freeapi.proxy.ConfigStore
@@ -40,6 +45,9 @@ interface PermissionHost {
 
     /** 申请蓝牙权限（充电线控制用）。 */
     fun requestBlePermissions()
+
+    /** 自动更新：跳转到系统「允许安装未知应用」设置页（下载/安装 APK 前检查用）。 */
+    fun openUpdateInstallPermission()
 }
 
 /**
@@ -109,7 +117,23 @@ class SettingsFragment : Fragment(), Tile {
         b.btnPermAuto.setOnClickListener { host?.openAutoStartSettings() }
         b.btnPermBle.setOnClickListener { host?.requestBlePermissions() }
 
+        b.btnUpdate.setOnClickListener { checkUpdate() }
+
         refresh()
+    }
+
+    /** 从系统设置页返回时可在此恢复流程（本页由 add+show/hide 托管，切 Tab 不会重进 onResume）。 */
+    override fun onResume() {
+        super.onResume()
+        if (AppUpdater.shouldResumeAfterPermission()) {
+            AppUpdater.markResumeHandled()
+            if (AppUpdater.canInstall(requireContext())) {
+                Toast.makeText(requireContext(), "已获得安装权限，开始更新", Toast.LENGTH_SHORT).show()
+                startDownload()
+            } else {
+                updateStatus("仍未授权「允许安装未知应用」，已取消更新", R.color.warn)
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -228,5 +252,100 @@ class SettingsFragment : Fragment(), Tile {
         }
     }
 
+    // ------------------------------------------------------------------ 自动更新
+
+    private var updateDialog: AlertDialog? = null
+    private var progressBar: ProgressBar? = null
+    private var progressText: TextView? = null
+
+    private fun checkUpdate() {
+        if (!AppUpdater.canInstall(requireContext())) {
+            // 没「安装未知应用」权限：置位续传标记，请宿主跳到系统设置，回来再继续。
+            updateStatus("未授权安装应用，正跳转系统设置…", R.color.warn)
+            Toast.makeText(
+                requireContext(),
+                "请在弹出的设置里开启「允许安装未知应用」后返回",
+                Toast.LENGTH_LONG,
+            ).show()
+            AppUpdater.requestResumeAfterPermission()
+            host?.openUpdateInstallPermission()
+            return
+        }
+        startDownload()
+    }
+
+    private fun startDownload() {
+        updateStatus("正在下载更新…", R.color.warn)
+        showDownloadDialog()
+        AppUpdater.downloadAsync(
+            context = requireContext(),
+            onProgress = { pct -> postProgress(pct) },
+            onSuccess = { file -> onDownloaded(file) },
+            onError = { reason -> onDownloadError(reason) },
+        )
+    }
+
+    private fun showDownloadDialog() {
+        val ctx = requireContext()
+        val content = LinearLayout(ctx).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(8), dp(6), dp(8), 0)
+        }
+        progressBar = ProgressBar(ctx, null, android.R.attr.progressBarStyleHorizontal).apply {
+            max = 100
+            progress = 0
+        }
+        progressText = TextView(ctx).apply {
+            textSize = 12f
+        }
+        content.addView(progressBar)
+        content.addView(progressText)
+        updateDialog = AlertDialog.Builder(ctx)
+            .setTitle("自动更新")
+            .setView(content)
+            .setNegativeButton("取消", { _, _ -> AppUpdater.cancel() })
+            .create()
+            .apply { show() }
+    }
+
+    private fun postProgress(pct: Int) {
+        val bar = progressBar ?: return
+        val tv = progressText ?: return
+        if (pct < 0) {
+            bar.isIndeterminate = true
+            tv.text = "正在下载，请稍候…"
+        } else {
+            bar.isIndeterminate = false
+            bar.progress = pct
+            tv.text = "已下载 $pct%"
+        }
+    }
+
+    private fun onDownloaded(file: java.io.File) {
+        updateDialog?.dismiss(); updateDialog = null
+        updateStatus("下载完成，等待安装", R.color.ok)
+        AlertDialog.Builder(requireContext())
+            .setTitle("自动更新")
+            .setMessage("更新包已下载，是否立即安装？")
+            .setPositiveButton("立即安装") { _, _ -> AppUpdater.install(requireContext(), file) }
+            .setNegativeButton("稍后", null)
+            .show()
+    }
+
+    private fun onDownloadError(reason: String) {
+        updateDialog?.dismiss(); updateDialog = null
+        updateStatus("更新失败：$reason", R.color.err)
+    }
+
+    private fun updateStatus(text: String, colorId: Int) {
+        val binding = _b ?: return
+        binding.tvUpdateStatus.text = text
+        binding.tvUpdateStatus.setTextColor(color(colorId))
+    }
+
     private fun color(id: Int): Int = ContextCompat.getColor(requireContext(), id)
+
+    private fun dp(v: Int): Int =
+        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, v.toFloat(), requireContext().resources.displayMetrics)
+            .toInt()
 }

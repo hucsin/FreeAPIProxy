@@ -4,12 +4,12 @@
         "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/fragment_settings.xml"
     },
     {
-        "merged": "com.freeapi.proxy.app-mergeDebugResources-19:/layout/fragment_cable.xml",
-        "source": "com.freeapi.proxy.app-main-22:/layout/fragment_cable.xml"
-    },
-    {
         "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-mergeDebugResources-19:/layout/fragment_cable.xml",
         "source": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-main-22:/layout/fragment_cable.xml"
+    },
+    {
+        "merged": "com.freeapi.proxy.app-mergeDebugResources-19:/layout/fragment_settings.xml",
+        "source": "com.freeapi.proxy.app-main-22:/layout/fragment_settings.xml"
     },
     {
         "merged": "/Users/iceet/.gradle/daemon/8.4/com.freeapi.proxy.app-mergeDebugResources-19:/layout/fragment_config.xml",

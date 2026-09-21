@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Typeface
-import android.transition.AutoTransition
-import android.transition.TransitionManager
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
@@ -121,7 +119,7 @@ class CardLayout @JvmOverloads constructor(
         addView(content)
         body = content
 
-        applyCollapsed(restoreCollapsed(), animate = false)
+        applyCollapsed(restoreCollapsed())
     }
 
     /**
@@ -200,32 +198,30 @@ class CardLayout @JvmOverloads constructor(
 
     fun toggle() = setCollapsed(!collapsed)
 
-    /** 供外部（如"一键展开全部"）调用；[animate] 为 false 时立即生效。 */
-    fun setCollapsed(value: Boolean, animate: Boolean = true) {
-        applyCollapsed(value, animate)
+    /** 供外部（如"一键展开全部"）调用。立即生效，无动画。 */
+    fun setCollapsed(value: Boolean) {
+        applyCollapsed(value)
         persist(value)
     }
 
-    private fun applyCollapsed(value: Boolean, animate: Boolean) {
+    /**
+     * **刻意不加动画**（2026-09-20 按需求去掉）。
+     *
+     * 原先两处动画都已移除：
+     *  - `TransitionManager.beginDelayedTransition(this, AutoTransition())` —— 高度/可见性过渡；
+     *  - `chevron.animate().rotation(...)` —— 箭头旋转。
+     *
+     * 页面上卡片较多且密集，同时触发多条过渡会让整屏「晃」一下，反而显得卡；
+     * 直接切换在观感上更干净。**想加回去的话两处要一起加**，只加箭头旋转会显得突兀。
+     */
+    private fun applyCollapsed(value: Boolean) {
         collapsed = value
         val content = body ?: return
 
-        if (animate) {
-            // AutoTransition 是框架自带的（API 19+），不需要 androidx.transition 依赖。
-            // 万一动画在某个 ROM 上抛异常也不能让"折叠"这个功能本身失效，所以兜一层。
-            runCatching { TransitionManager.beginDelayedTransition(this, AutoTransition()) }
-        }
         content.visibility = if (value) View.GONE else View.VISIBLE
         collapseOwnSizing(value)
 
-        val arrow = chevron ?: return
-        val target = if (value) 0f else 180f
-        if (animate) {
-            arrow.animate().rotation(target).setDuration(160L).start()
-        } else {
-            arrow.animate().cancel()
-            arrow.rotation = target
-        }
+        chevron?.rotation = if (value) 0f else 180f
     }
 
     /**

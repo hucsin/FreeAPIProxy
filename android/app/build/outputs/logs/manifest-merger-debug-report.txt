@@ -1,9 +1,20 @@
 -- Merging decision tree log ---
+provider#androidx.core.content.FileProvider
+INJECTED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:116:9-124:20
+	android:grantUriPermissions
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:120:13-47
+	android:authorities
+		INJECTED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:118:13-64
+	android:exported
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:119:13-37
+	android:name
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:117:13-62
 manifest
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:2:1-111:12
-INJECTED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:2:1-111:12
-INJECTED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:2:1-111:12
-INJECTED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:2:1-111:12
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:2:1-127:12
+INJECTED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:2:1-127:12
+INJECTED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:2:1-127:12
+INJECTED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:2:1-127:12
 MERGED from [androidx.databinding:viewbinding:8.2.2] /Users/iceet/.gradle/caches/transforms-3/1e80f947aa6b73069745b1ab5a51799f/transformed/viewbinding-8.2.2/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/iceet/.gradle/caches/transforms-3/fdf7cb61aa48a697a9df8fc1913e04bc/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.appcompat:appcompat:1.6.1] /Users/iceet/.gradle/caches/transforms-3/bd4b3a0f9ce03c46acf898a6cf446411/transformed/appcompat-1.6.1/AndroidManifest.xml:17:1-22:12
@@ -76,47 +87,51 @@ uses-permission#android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
 ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:19:5-95
 	android:name
 		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:19:22-92
+uses-permission#android.permission.REQUEST_INSTALL_PACKAGES
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:24:5-83
+	android:name
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:24:22-80
 uses-permission#android.permission.BLUETOOTH
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:26:5-28:38
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:31:5-33:38
 	android:maxSdkVersion
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:28:9-35
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:33:9-35
 	android:name
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:27:9-52
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:32:9-52
 uses-permission#android.permission.BLUETOOTH_ADMIN
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:29:5-31:38
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:34:5-36:38
 	android:maxSdkVersion
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:31:9-35
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:36:9-35
 	android:name
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:30:9-58
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:35:9-58
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:32:5-34:38
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:37:5-39:38
 	android:maxSdkVersion
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:34:9-35
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:39:9-35
 	android:name
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:33:9-63
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:38:9-63
 uses-permission#android.permission.BLUETOOTH_SCAN
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:35:5-38:31
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:40:5-43:31
 	android:usesPermissionFlags
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:37:9-55
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:42:9-55
 	tools:targetApi
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:38:9-28
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:43:9-28
 	android:name
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:36:9-57
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:41:9-57
 uses-permission#android.permission.BLUETOOTH_CONNECT
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:39:5-41:31
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:44:5-46:31
 	tools:targetApi
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:41:9-28
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:46:9-28
 	android:name
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:40:9-60
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:45:9-60
 uses-feature#android.hardware.bluetooth_le
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:44:5-46:36
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:49:5-51:36
 	android:required
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:46:9-33
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:51:9-33
 	android:name
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:45:9-53
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:50:9-53
 application
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:48:5-110:19
-INJECTED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:48:5-110:19
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:53:5-126:19
+INJECTED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:53:5-126:19
 MERGED from [androidx.emoji2:emoji2:1.2.0] /Users/iceet/.gradle/caches/transforms-3/2497a04ce439ba5192d483e53a542533/transformed/emoji2-1.2.0/AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.emoji2:emoji2:1.2.0] /Users/iceet/.gradle/caches/transforms-3/2497a04ce439ba5192d483e53a542533/transformed/emoji2-1.2.0/AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.core:core:1.12.0] /Users/iceet/.gradle/caches/transforms-3/01be542a8a7642ecba403b94caa2bdf6/transformed/core-1.12.0/AndroidManifest.xml:28:5-89
@@ -132,97 +147,103 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/iceet/.gradle/caches
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.12.0] /Users/iceet/.gradle/caches/transforms-3/01be542a8a7642ecba403b94caa2bdf6/transformed/core-1.12.0/AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:53:9-35
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:58:9-35
 	android:label
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:52:9-41
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:57:9-41
 	android:roundIcon
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:51:9-54
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:56:9-54
 	android:icon
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:50:9-43
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:55:9-43
 	android:allowBackup
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:49:9-36
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:54:9-36
 	android:theme
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:55:9-50
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:60:9-50
 	android:usesCleartextTraffic
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:54:9-44
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:59:9-44
 activity#com.freeapi.proxy.MainActivity
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:57:9-66:20
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:62:9-71:20
 	android:launchMode
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:60:13-43
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:65:13-43
 	android:exported
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:59:13-36
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:64:13-36
 	android:configChanges
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:61:13-74
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:66:13-74
 	android:name
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:58:13-41
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:63:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:62:13-65:29
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:67:13-70:29
 action#android.intent.action.MAIN
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:63:17-69
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:68:17-69
 	android:name
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:63:25-66
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:68:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:64:17-77
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:69:17-77
 	android:name
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:64:27-74
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:69:27-74
 service#com.freeapi.proxy.service.ProxyService
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:69:9-77:19
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:74:9-82:19
 	android:exported
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:71:13-37
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:76:13-37
 	android:stopWithTask
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:73:13-41
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:78:13-41
 	android:foregroundServiceType
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:72:13-55
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:77:13-55
 	android:name
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:70:13-49
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:75:13-49
 property
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:74:13-76:59
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:79:13-81:59
 	android:value
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:76:17-56
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:81:17-56
 	android:name
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:75:17-76
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:80:17-76
 service#com.freeapi.proxy.service.CableService
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:83:9-91:19
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:88:9-96:19
 	android:exported
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:85:13-37
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:90:13-37
 	android:stopWithTask
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:87:13-41
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:92:13-41
 	android:foregroundServiceType
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:86:13-55
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:91:13-55
 	android:name
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:84:13-49
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:89:13-49
 receiver#com.freeapi.proxy.service.BootReceiver
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:93:9-103:20
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:98:9-108:20
 	android:enabled
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:95:13-35
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:100:13-35
 	android:exported
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:96:13-36
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:101:13-36
 	tools:ignore
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:97:13-44
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:102:13-44
 	android:name
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:94:13-49
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:99:13-49
 intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.QUICKBOOT_POWERON+action:name:com.htc.intent.action.QUICKBOOT_POWERON
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:98:13-102:29
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:103:13-107:29
 action#android.intent.action.BOOT_COMPLETED
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:99:17-79
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:104:17-79
 	android:name
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:99:25-76
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:104:25-76
 action#android.intent.action.QUICKBOOT_POWERON
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:100:17-82
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:105:17-82
 	android:name
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:100:25-79
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:105:25-79
 action#com.htc.intent.action.QUICKBOOT_POWERON
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:101:17-82
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:106:17-82
 	android:name
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:101:25-79
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:106:25-79
 receiver#com.freeapi.proxy.service.WatchdogReceiver
-ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:105:9-108:40
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:110:9-113:40
 	android:enabled
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:107:13-35
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:112:13-35
 	android:exported
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:108:13-37
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:113:13-37
 	android:name
-		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:106:13-53
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:111:13-53
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:121:13-123:54
+	android:resource
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:123:17-51
+	android:name
+		ADDED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:122:17-67
 uses-sdk
 INJECTED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml

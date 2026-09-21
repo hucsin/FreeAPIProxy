@@ -25,6 +25,13 @@
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
     <!--
+         自动更新：允许通过 FileProvider 安装下载到的 APK。
+         实际开关在系统「安装未知应用」页（Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES）。
+         声明后代码里才能用 canRequestPackageInstalls 查询该权限。
+    -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <!--
          ── 蓝牙（充电线控制）─────────────────────────────────────────────
          Android 12(API31) 起用 BLUETOOTH_SCAN / CONNECT，并把旧的
          BLUETOOTH / BLUETOOTH_ADMIN / 定位权限限制到 API30 及以下。
@@ -121,6 +128,16 @@
             android:enabled="true"
             android:exported="false" />
 
+        <!-- 自动更新：把下载到私有目录的 APK 暴露给系统安装器（ACTION_VIEW） -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.freeapi.proxy.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="com.freeapi.proxy.androidx-startup"

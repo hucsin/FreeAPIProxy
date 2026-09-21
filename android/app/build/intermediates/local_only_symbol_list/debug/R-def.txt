@@ -62,6 +62,7 @@ id btnPermPower
 id btnResetStats
 id btnRestart
 id btnToggle
+id btnUpdate
 id btnZtToggle
 id dotCable
 id dotStatus
@@ -128,6 +129,7 @@ id tvStatus
 id tvThreshold
 id tvThresholdHint
 id tvTunnels
+id tvUpdateStatus
 id tvUptime
 id tvZtEndpoint
 id tvZtInbound
@@ -154,6 +156,7 @@ string btn_copy_log
 string btn_restart
 string btn_start
 string btn_stop
+string btn_update
 string cable_notif_channel_desc
 string cable_notif_channel_name
 string cable_notif_title
@@ -171,3 +174,4 @@ style StatKey
 style StatVal
 style Theme.FreeAPIProxy
 styleable CardLayout cardTitle cardIcon cardCollapsible cardFillBody cardKey
+xml file_paths

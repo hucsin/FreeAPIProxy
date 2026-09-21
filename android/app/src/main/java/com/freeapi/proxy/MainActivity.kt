@@ -301,6 +301,19 @@ class MainActivity : AppCompatActivity(), PermissionHost, CableHost {
         toast(VendorSettings.manualHint(VendorSettings.current(), VendorSettings.Page.AUTO_START))
     }
 
+    /**
+     * 自动更新用：跳到系统「允许安装未知应用」页。
+     * 该权限在 Android 8(API26) 及以上通过 [PackageManager.canRequestPackageInstalls]
+     * 查询、经 [Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES] 授权；minSdk=26，无需分支。
+     */
+    override fun openUpdateInstallPermission() {
+        val i = Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES)
+            .setData(Uri.parse("package:$packageName"))
+        safeStart(i) {
+            toast("请到「设置 → 安全 → 安装未知应用」中允许本应用")
+        }
+    }
+
     // ------------------------------------------------------------------ 充电线宿主
 
     /**

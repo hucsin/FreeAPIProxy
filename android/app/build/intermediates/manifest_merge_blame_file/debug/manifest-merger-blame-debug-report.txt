@@ -41,195 +41,221 @@
 25-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:19:22-92
 26
 27    <!--
-28         ── 蓝牙（充电线控制）─────────────────────────────────────────────
-29         Android 12(API31) 起用 BLUETOOTH_SCAN / CONNECT，并把旧的
-30         BLUETOOTH / BLUETOOTH_ADMIN / 定位权限限制到 API30 及以下。
-31         neverForLocation：我们只按设备名找充电线控制器，不推导位置，
-32         声明后 12+ 上不必再申请定位权限。
-33    -->
-34    <uses-permission
-34-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:26:5-28:38
-35        android:name="android.permission.BLUETOOTH"
-35-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:27:9-52
-36        android:maxSdkVersion="30" />
-36-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:28:9-35
-37    <uses-permission
-37-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:29:5-31:38
-38        android:name="android.permission.BLUETOOTH_ADMIN"
-38-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:30:9-58
-39        android:maxSdkVersion="30" />
-39-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:31:9-35
-40    <uses-permission
-40-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:32:5-34:38
-41        android:name="android.permission.ACCESS_FINE_LOCATION"
-41-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:33:9-63
-42        android:maxSdkVersion="30" />
-42-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:34:9-35
-43    <uses-permission
-43-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:35:5-38:31
-44        android:name="android.permission.BLUETOOTH_SCAN"
-44-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:36:9-57
-45        android:usesPermissionFlags="neverForLocation" />
-45-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:37:9-55
-46    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-46-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:39:5-41:31
-46-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:40:9-60
-47
-48    <!-- required=false：代理功能不依赖蓝牙，没有 BLE 的设备也该能装 -->
-49    <uses-feature
-49-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:44:5-46:36
-50        android:name="android.hardware.bluetooth_le"
-50-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:45:9-53
-51        android:required="false" />
-51-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:46:9-33
-52
-53    <permission
-53-->[androidx.core:core:1.12.0] /Users/iceet/.gradle/caches/transforms-3/01be542a8a7642ecba403b94caa2bdf6/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
-54        android:name="com.freeapi.proxy.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-54-->[androidx.core:core:1.12.0] /Users/iceet/.gradle/caches/transforms-3/01be542a8a7642ecba403b94caa2bdf6/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
-55        android:protectionLevel="signature" />
-55-->[androidx.core:core:1.12.0] /Users/iceet/.gradle/caches/transforms-3/01be542a8a7642ecba403b94caa2bdf6/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
-56
-57    <uses-permission android:name="com.freeapi.proxy.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-57-->[androidx.core:core:1.12.0] /Users/iceet/.gradle/caches/transforms-3/01be542a8a7642ecba403b94caa2bdf6/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
-57-->[androidx.core:core:1.12.0] /Users/iceet/.gradle/caches/transforms-3/01be542a8a7642ecba403b94caa2bdf6/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
-58
-59    <application
-59-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:48:5-110:19
-60        android:allowBackup="false"
-60-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:49:9-36
-61        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-61-->[androidx.core:core:1.12.0] /Users/iceet/.gradle/caches/transforms-3/01be542a8a7642ecba403b94caa2bdf6/transformed/core-1.12.0/AndroidManifest.xml:28:18-86
-62        android:debuggable="true"
-63        android:extractNativeLibs="false"
-64        android:icon="@mipmap/ic_launcher"
-64-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:50:9-43
-65        android:label="@string/app_name"
-65-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:52:9-41
-66        android:roundIcon="@mipmap/ic_launcher_round"
-66-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:51:9-54
-67        android:supportsRtl="true"
-67-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:53:9-35
-68        android:theme="@style/Theme.FreeAPIProxy"
-68-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:55:9-50
-69        android:usesCleartextTraffic="true" >
-69-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:54:9-44
-70        <activity
-70-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:57:9-66:20
-71            android:name="com.freeapi.proxy.MainActivity"
-71-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:58:13-41
-72            android:configChanges="orientation|screenSize|keyboardHidden"
-72-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:61:13-74
-73            android:exported="true"
-73-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:59:13-36
-74            android:launchMode="singleTop" >
-74-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:60:13-43
-75            <intent-filter>
-75-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:62:13-65:29
-76                <action android:name="android.intent.action.MAIN" />
-76-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:63:17-69
-76-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:63:25-66
-77
-78                <category android:name="android.intent.category.LAUNCHER" />
-78-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:64:17-77
-78-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:64:27-74
-79            </intent-filter>
-80        </activity>
-81
-82        <!-- stopWithTask=false：划掉最近任务列表不杀服务 -->
-83        <service
-83-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:69:9-77:19
-84            android:name="com.freeapi.proxy.service.ProxyService"
-84-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:70:13-49
-85            android:exported="false"
-85-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:71:13-37
-86            android:foregroundServiceType="specialUse"
-86-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:72:13-55
-87            android:stopWithTask="false" >
-87-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:73:13-41
-88            <property
-88-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:74:13-76:59
-89                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-89-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:75:17-76
-90                android:value="local_http_egress_proxy" />
-90-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:76:17-56
-91        </service>
-92
-93        <!--
-94             充电线控制：按电量阈值通过蓝牙控制外部充电开关。
-95             与 ProxyService 分开是有意的 —— 两者的生命周期互不依赖
-96             （只想跑代理 / 只想控充电线都成立），合并会强行绑死。
-97             specialUse：这个用途不属于系统预置的任何类型。
-98        -->
-99        <service
-99-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:83:9-91:19
-100            android:name="com.freeapi.proxy.service.CableService"
-100-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:84:13-49
-101            android:exported="false"
-101-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:85:13-37
-102            android:foregroundServiceType="specialUse"
-102-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:86:13-55
-103            android:stopWithTask="false" >
-103-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:87:13-41
-104            <property
-104-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:74:13-76:59
-105                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-105-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:75:17-76
-106                android:value="按电量阈值定时通过蓝牙控制外部充电开关" />
-106-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:76:17-56
-107        </service>
-108
-109        <receiver
-109-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:93:9-103:20
-110            android:name="com.freeapi.proxy.service.BootReceiver"
-110-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:94:13-49
-111            android:enabled="true"
-111-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:95:13-35
-112            android:exported="true" >
-112-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:96:13-36
-113            <intent-filter>
-113-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:98:13-102:29
-114                <action android:name="android.intent.action.BOOT_COMPLETED" />
-114-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:99:17-79
-114-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:99:25-76
-115                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-115-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:100:17-82
-115-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:100:25-79
-116                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
-116-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:101:17-82
-116-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:101:25-79
-117            </intent-filter>
-118        </receiver>
-119        <receiver
-119-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:105:9-108:40
-120            android:name="com.freeapi.proxy.service.WatchdogReceiver"
-120-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:106:13-53
-121            android:enabled="true"
-121-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:107:13-35
-122            android:exported="false" />
-122-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:108:13-37
-123
-124        <provider
-124-->[androidx.emoji2:emoji2:1.2.0] /Users/iceet/.gradle/caches/transforms-3/2497a04ce439ba5192d483e53a542533/transformed/emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
-125            android:name="androidx.startup.InitializationProvider"
-125-->[androidx.emoji2:emoji2:1.2.0] /Users/iceet/.gradle/caches/transforms-3/2497a04ce439ba5192d483e53a542533/transformed/emoji2-1.2.0/AndroidManifest.xml:25:13-67
-126            android:authorities="com.freeapi.proxy.androidx-startup"
-126-->[androidx.emoji2:emoji2:1.2.0] /Users/iceet/.gradle/caches/transforms-3/2497a04ce439ba5192d483e53a542533/transformed/emoji2-1.2.0/AndroidManifest.xml:26:13-68
-127            android:exported="false" >
-127-->[androidx.emoji2:emoji2:1.2.0] /Users/iceet/.gradle/caches/transforms-3/2497a04ce439ba5192d483e53a542533/transformed/emoji2-1.2.0/AndroidManifest.xml:27:13-37
-128            <meta-data
-128-->[androidx.emoji2:emoji2:1.2.0] /Users/iceet/.gradle/caches/transforms-3/2497a04ce439ba5192d483e53a542533/transformed/emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
-129                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-129-->[androidx.emoji2:emoji2:1.2.0] /Users/iceet/.gradle/caches/transforms-3/2497a04ce439ba5192d483e53a542533/transformed/emoji2-1.2.0/AndroidManifest.xml:30:17-75
-130                android:value="androidx.startup" />
-130-->[androidx.emoji2:emoji2:1.2.0] /Users/iceet/.gradle/caches/transforms-3/2497a04ce439ba5192d483e53a542533/transformed/emoji2-1.2.0/AndroidManifest.xml:31:17-49
-131            <meta-data
-131-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/iceet/.gradle/caches/transforms-3/0ae369a56c4ec87a1d9746a37b89e22a/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:31:13-33:52
-132                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-132-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/iceet/.gradle/caches/transforms-3/0ae369a56c4ec87a1d9746a37b89e22a/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:32:17-78
-133                android:value="androidx.startup" />
-133-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/iceet/.gradle/caches/transforms-3/0ae369a56c4ec87a1d9746a37b89e22a/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:33:17-49
-134        </provider>
-135    </application>
-136
-137</manifest>
+28         自动更新：允许通过 FileProvider 安装下载到的 APK。
+29         实际开关在系统「安装未知应用」页（Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES）。
+30         声明后代码里才能用 canRequestPackageInstalls 查询该权限。
+31    -->
+32    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+32-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:24:5-83
+32-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:24:22-80
+33
+34    <!--
+35         ── 蓝牙（充电线控制）─────────────────────────────────────────────
+36         Android 12(API31) 起用 BLUETOOTH_SCAN / CONNECT，并把旧的
+37         BLUETOOTH / BLUETOOTH_ADMIN / 定位权限限制到 API30 及以下。
+38         neverForLocation：我们只按设备名找充电线控制器，不推导位置，
+39         声明后 12+ 上不必再申请定位权限。
+40    -->
+41    <uses-permission
+41-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:31:5-33:38
+42        android:name="android.permission.BLUETOOTH"
+42-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:32:9-52
+43        android:maxSdkVersion="30" />
+43-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:33:9-35
+44    <uses-permission
+44-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:34:5-36:38
+45        android:name="android.permission.BLUETOOTH_ADMIN"
+45-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:35:9-58
+46        android:maxSdkVersion="30" />
+46-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:36:9-35
+47    <uses-permission
+47-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:37:5-39:38
+48        android:name="android.permission.ACCESS_FINE_LOCATION"
+48-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:38:9-63
+49        android:maxSdkVersion="30" />
+49-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:39:9-35
+50    <uses-permission
+50-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:40:5-43:31
+51        android:name="android.permission.BLUETOOTH_SCAN"
+51-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:41:9-57
+52        android:usesPermissionFlags="neverForLocation" />
+52-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:42:9-55
+53    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+53-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:44:5-46:31
+53-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:45:9-60
+54
+55    <!-- required=false：代理功能不依赖蓝牙，没有 BLE 的设备也该能装 -->
+56    <uses-feature
+56-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:49:5-51:36
+57        android:name="android.hardware.bluetooth_le"
+57-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:50:9-53
+58        android:required="false" />
+58-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:51:9-33
+59
+60    <permission
+60-->[androidx.core:core:1.12.0] /Users/iceet/.gradle/caches/transforms-3/01be542a8a7642ecba403b94caa2bdf6/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
+61        android:name="com.freeapi.proxy.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+61-->[androidx.core:core:1.12.0] /Users/iceet/.gradle/caches/transforms-3/01be542a8a7642ecba403b94caa2bdf6/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
+62        android:protectionLevel="signature" />
+62-->[androidx.core:core:1.12.0] /Users/iceet/.gradle/caches/transforms-3/01be542a8a7642ecba403b94caa2bdf6/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
+63
+64    <uses-permission android:name="com.freeapi.proxy.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+64-->[androidx.core:core:1.12.0] /Users/iceet/.gradle/caches/transforms-3/01be542a8a7642ecba403b94caa2bdf6/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
+64-->[androidx.core:core:1.12.0] /Users/iceet/.gradle/caches/transforms-3/01be542a8a7642ecba403b94caa2bdf6/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
+65
+66    <application
+66-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:53:5-126:19
+67        android:allowBackup="false"
+67-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:54:9-36
+68        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+68-->[androidx.core:core:1.12.0] /Users/iceet/.gradle/caches/transforms-3/01be542a8a7642ecba403b94caa2bdf6/transformed/core-1.12.0/AndroidManifest.xml:28:18-86
+69        android:debuggable="true"
+70        android:extractNativeLibs="false"
+71        android:icon="@mipmap/ic_launcher"
+71-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:55:9-43
+72        android:label="@string/app_name"
+72-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:57:9-41
+73        android:roundIcon="@mipmap/ic_launcher_round"
+73-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:56:9-54
+74        android:supportsRtl="true"
+74-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:58:9-35
+75        android:theme="@style/Theme.FreeAPIProxy"
+75-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:60:9-50
+76        android:usesCleartextTraffic="true" >
+76-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:59:9-44
+77        <activity
+77-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:62:9-71:20
+78            android:name="com.freeapi.proxy.MainActivity"
+78-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:63:13-41
+79            android:configChanges="orientation|screenSize|keyboardHidden"
+79-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:66:13-74
+80            android:exported="true"
+80-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:64:13-36
+81            android:launchMode="singleTop" >
+81-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:65:13-43
+82            <intent-filter>
+82-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:67:13-70:29
+83                <action android:name="android.intent.action.MAIN" />
+83-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:68:17-69
+83-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:68:25-66
+84
+85                <category android:name="android.intent.category.LAUNCHER" />
+85-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:69:17-77
+85-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:69:27-74
+86            </intent-filter>
+87        </activity>
+88
+89        <!-- stopWithTask=false：划掉最近任务列表不杀服务 -->
+90        <service
+90-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:74:9-82:19
+91            android:name="com.freeapi.proxy.service.ProxyService"
+91-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:75:13-49
+92            android:exported="false"
+92-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:76:13-37
+93            android:foregroundServiceType="specialUse"
+93-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:77:13-55
+94            android:stopWithTask="false" >
+94-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:78:13-41
+95            <property
+95-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:79:13-81:59
+96                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+96-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:80:17-76
+97                android:value="local_http_egress_proxy" />
+97-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:81:17-56
+98        </service>
+99
+100        <!--
+101             充电线控制：按电量阈值通过蓝牙控制外部充电开关。
+102             与 ProxyService 分开是有意的 —— 两者的生命周期互不依赖
+103             （只想跑代理 / 只想控充电线都成立），合并会强行绑死。
+104             specialUse：这个用途不属于系统预置的任何类型。
+105        -->
+106        <service
+106-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:88:9-96:19
+107            android:name="com.freeapi.proxy.service.CableService"
+107-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:89:13-49
+108            android:exported="false"
+108-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:90:13-37
+109            android:foregroundServiceType="specialUse"
+109-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:91:13-55
+110            android:stopWithTask="false" >
+110-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:92:13-41
+111            <property
+111-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:79:13-81:59
+112                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+112-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:80:17-76
+113                android:value="按电量阈值定时通过蓝牙控制外部充电开关" />
+113-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:81:17-56
+114        </service>
+115
+116        <receiver
+116-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:98:9-108:20
+117            android:name="com.freeapi.proxy.service.BootReceiver"
+117-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:99:13-49
+118            android:enabled="true"
+118-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:100:13-35
+119            android:exported="true" >
+119-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:101:13-36
+120            <intent-filter>
+120-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:103:13-107:29
+121                <action android:name="android.intent.action.BOOT_COMPLETED" />
+121-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:104:17-79
+121-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:104:25-76
+122                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+122-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:105:17-82
+122-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:105:25-79
+123                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+123-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:106:17-82
+123-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:106:25-79
+124            </intent-filter>
+125        </receiver>
+126        <receiver
+126-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:110:9-113:40
+127            android:name="com.freeapi.proxy.service.WatchdogReceiver"
+127-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:111:13-53
+128            android:enabled="true"
+128-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:112:13-35
+129            android:exported="false" />
+129-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:113:13-37
+130
+131        <!-- 自动更新：把下载到私有目录的 APK 暴露给系统安装器（ACTION_VIEW） -->
+132        <provider
+133            android:name="androidx.core.content.FileProvider"
+133-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:117:13-62
+134            android:authorities="com.freeapi.proxy.fileprovider"
+134-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:118:13-64
+135            android:exported="false"
+135-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:119:13-37
+136            android:grantUriPermissions="true" >
+136-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:120:13-47
+137            <meta-data
+137-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:121:13-123:54
+138                android:name="android.support.FILE_PROVIDER_PATHS"
+138-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:122:17-67
+139                android:resource="@xml/file_paths" />
+139-->/Users/iceet/Work/FreeAPIProxy/android/app/src/main/AndroidManifest.xml:123:17-51
+140        </provider>
+141        <provider
+141-->[androidx.emoji2:emoji2:1.2.0] /Users/iceet/.gradle/caches/transforms-3/2497a04ce439ba5192d483e53a542533/transformed/emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
+142            android:name="androidx.startup.InitializationProvider"
+142-->[androidx.emoji2:emoji2:1.2.0] /Users/iceet/.gradle/caches/transforms-3/2497a04ce439ba5192d483e53a542533/transformed/emoji2-1.2.0/AndroidManifest.xml:25:13-67
+143            android:authorities="com.freeapi.proxy.androidx-startup"
+143-->[androidx.emoji2:emoji2:1.2.0] /Users/iceet/.gradle/caches/transforms-3/2497a04ce439ba5192d483e53a542533/transformed/emoji2-1.2.0/AndroidManifest.xml:26:13-68
+144            android:exported="false" >
+144-->[androidx.emoji2:emoji2:1.2.0] /Users/iceet/.gradle/caches/transforms-3/2497a04ce439ba5192d483e53a542533/transformed/emoji2-1.2.0/AndroidManifest.xml:27:13-37
+145            <meta-data
+145-->[androidx.emoji2:emoji2:1.2.0] /Users/iceet/.gradle/caches/transforms-3/2497a04ce439ba5192d483e53a542533/transformed/emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
+146                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+146-->[androidx.emoji2:emoji2:1.2.0] /Users/iceet/.gradle/caches/transforms-3/2497a04ce439ba5192d483e53a542533/transformed/emoji2-1.2.0/AndroidManifest.xml:30:17-75
+147                android:value="androidx.startup" />
+147-->[androidx.emoji2:emoji2:1.2.0] /Users/iceet/.gradle/caches/transforms-3/2497a04ce439ba5192d483e53a542533/transformed/emoji2-1.2.0/AndroidManifest.xml:31:17-49
+148            <meta-data
+148-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/iceet/.gradle/caches/transforms-3/0ae369a56c4ec87a1d9746a37b89e22a/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:31:13-33:52
+149                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+149-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/iceet/.gradle/caches/transforms-3/0ae369a56c4ec87a1d9746a37b89e22a/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:32:17-78
+150                android:value="androidx.startup" />
+150-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/iceet/.gradle/caches/transforms-3/0ae369a56c4ec87a1d9746a37b89e22a/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:33:17-49
+151        </provider>
+152    </application>
+153
+154</manifest>
