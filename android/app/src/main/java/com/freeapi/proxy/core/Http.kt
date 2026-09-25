@@ -86,7 +86,8 @@ object ProxyRules {
     val BLOCKED_REQUEST = setOf(
         "x-forwarded-for", "x-forwarded-proto", "x-forwarded-host", "x-real-ip",
         "true-client-ip", "forwarded", "via", "proxy-authorization",
-        "x-proxy-token", "x-forward-target", "x-upstream-auth", "x-proxy-mode",
+        "x-proxy-token", "x-forward-target", "x-upstream-auth", "x-upstream-user-agent",
+        "x-proxy-mode",
     )
 
     /**
@@ -141,9 +142,14 @@ object ProxyRules {
     /**
      * 构造发往上游的请求头：剥内部头、cf- 特征头、hop-by-hop、Connection 点名的头；
      * Host / Content-Length / Transfer-Encoding 由分帧逻辑自己决定，这里一并剥掉。
-     * Authorization 缺失时注入 X-Upstream-Auth 的值。
+     * Authorization / User-Agent 缺失时注入 X-Upstream-Auth / X-Upstream-User-Agent 的值
+     * （宿主把上游真正的凭据 / UA 放进这两个内部承载头，opencode 免费层门禁依赖 UA）。
      */
-    fun forwardRequestHeaders(headers: List<Header>, upstreamAuth: String?): MutableList<Header> {
+    fun forwardRequestHeaders(
+        headers: List<Header>,
+        upstreamAuth: String?,
+        upstreamUserAgent: String?,
+    ): MutableList<Header> {
         val conn = connectionTokens(headers)
         val out = ArrayList<Header>(headers.size + 4)
         for (h in headers) {
@@ -159,6 +165,11 @@ object ProxyRules {
             out.none { it.name.equals("authorization", ignoreCase = true) }
         ) {
             out.add(Header("Authorization", upstreamAuth))
+        }
+        if (!upstreamUserAgent.isNullOrEmpty() &&
+            out.none { it.name.equals("user-agent", ignoreCase = true) }
+        ) {
+            out.add(Header("User-Agent", upstreamUserAgent))
         }
         return out
     }

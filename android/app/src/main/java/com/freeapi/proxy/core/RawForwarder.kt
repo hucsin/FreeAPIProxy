@@ -133,10 +133,12 @@ object RawForwarder {
             if (!q.isNullOrEmpty()) append('?').append(q)
         }
 
-        val hdrs = ProxyRules.forwardRequestHeaders(head.headers, head.header("x-upstream-auth"))
+        val upUA = head.header("x-upstream-user-agent").orEmpty()
+        val hdrs = ProxyRules.forwardRequestHeaders(head.headers, head.header("x-upstream-auth"), upUA)
         hdrs.add(0, Header("Host", target.authority ?: target.host))
 
-        if (cfg.userAgentOverride.isNotEmpty()) {
+        // UA 覆盖仅在宿主没给 X-Upstream-User-Agent 时生效：承载头代表上游真实 UA（opencode 门禁依赖）。
+        if (cfg.userAgentOverride.isNotEmpty() && upUA.isEmpty()) {
             hdrs.removeAll { it.name.equals("user-agent", ignoreCase = true) }
             hdrs.add(Header("User-Agent", cfg.userAgentOverride))
         }

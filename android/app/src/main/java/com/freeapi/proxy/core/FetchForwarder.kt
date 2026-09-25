@@ -60,7 +60,8 @@ object FetchForwarder {
         cors: List<Header>,
         stats: ProxyStats,
     ): Boolean {
-        val hdrs = ProxyRules.forwardRequestHeaders(head.headers, head.header("x-upstream-auth"))
+        val upUA = head.header("x-upstream-user-agent").orEmpty()
+        val hdrs = ProxyRules.forwardRequestHeaders(head.headers, head.header("x-upstream-auth"), upUA)
 
         // Content-Type 不能当普通头塞（OkHttp 会拒），改用 RequestBody.contentType 承载
         val ctHeader = hdrs.firstOrNull { it.name.equals("content-type", ignoreCase = true) }
@@ -71,7 +72,8 @@ object FetchForwarder {
             hdrs.add(Header("Accept-Encoding", "identity"))
         }
 
-        if (cfg.userAgentOverride.isNotEmpty()) {
+        // UA 覆盖仅在宿主没给 X-Upstream-User-Agent 时生效：承载头代表上游真实 UA（opencode 门禁依赖）。
+        if (cfg.userAgentOverride.isNotEmpty() && upUA.isEmpty()) {
             hdrs.removeAll { it.name.equals("user-agent", ignoreCase = true) }
             hdrs.add(Header("User-Agent", cfg.userAgentOverride))
         }

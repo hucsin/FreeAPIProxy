@@ -65,7 +65,7 @@ function shouldForceFetch(host, mode) {
 const BLOCKED = new Set([
   'x-forwarded-for', 'x-forwarded-proto', 'x-forwarded-host', 'x-real-ip',
   'true-client-ip', 'forwarded', 'via', 'proxy-authorization',
-  'x-proxy-token', 'x-forward-target', 'x-upstream-auth',
+  'x-proxy-token', 'x-forward-target', 'x-upstream-auth', 'x-upstream-user-agent',
 ]);
 
 // 下游响应需要剥掉的 hop-by-hop / 危险头（避免分帧冲突与头注入）。
@@ -114,6 +114,12 @@ function buildForwardHeaders(headers, ctx) {
   }
   if (ctx && ctx.upstreamAuth && !Object.keys(out).some((k) => k.toLowerCase() === 'authorization')) {
     out.Authorization = ctx.upstreamAuth;
+  }
+  // 客户端 UA 需穿透到上游（opencode 免费层门禁要求 UA 含 opencode/<ver>），
+  // 由宿主 X-Upstream-User-Agent 承载，这里还原为真正的 User-Agent。
+  const upUA = (ctx && ctx.upstreamUserAgent) || '';
+  if (upUA && !Object.keys(out).some((k) => k.toLowerCase() === 'user-agent')) {
+    out['User-Agent'] = upUA;
   }
   //if (!Object.keys(out).some((k) => k.toLowerCase() === 'user-agent')) {
     //out['User-Agent'] = FAKE_UA;
@@ -263,7 +269,10 @@ const server = http.createServer((req, res) => {
   req.on('error', () => {});
   req.on('end', async () => {
     const bodyBuffer = ['POST', 'PUT', 'PATCH'].includes(req.method) ? Buffer.concat(chunks) : null;
-    const fwdHeaders = buildForwardHeaders(req.headers, { upstreamAuth: req.headers['x-upstream-auth'] || '' });
+    const fwdHeaders = buildForwardHeaders(req.headers, {
+      upstreamAuth: req.headers['x-upstream-auth'] || '',
+      upstreamUserAgent: req.headers['x-upstream-user-agent'] || '',
+    });
     const mode = req.headers['x-proxy-mode'] || MODE;
     try {
       if (!shouldForceFetch(target.host, mode)) {

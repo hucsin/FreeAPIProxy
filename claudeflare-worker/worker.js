@@ -80,6 +80,7 @@ function buildForwardHeaders(headers, ctx) {
     'x-proxy-token', // 代理自身鉴权，透传剥掉
     'x-forward-target', // 中继控制头，透传剥掉
     'x-upstream-auth', // 内部承载，用完剥掉
+    'x-upstream-user-agent', // 内部承载，用完剥掉
   ]);
   headers.forEach((value, key) => {
     const k = key.toLowerCase();
@@ -90,6 +91,9 @@ function buildForwardHeaders(headers, ctx) {
   // 若上游鉴权由 x-upstream-auth 提供而原请求没有 Authorization，则落位
   if (ctx.upstreamAuth && !out.has('Authorization')) {
     out.set('Authorization', ctx.upstreamAuth);
+  }
+  if (ctx.upstreamUserAgent && !out.has('User-Agent')) {
+    out.set('User-Agent', ctx.upstreamUserAgent);
   }
   //if (!out.has('User-Agent')) out.set('User-Agent', FAKE_UA);
   return out;
@@ -260,7 +264,10 @@ export default {
 };
 
 async function doFetch(targetURL, request, body) {
-  const ctx = { upstreamAuth: request.headers.get('x-upstream-auth') || '' };
+  const ctx = {
+    upstreamAuth: request.headers.get('x-upstream-auth') || '',
+    upstreamUserAgent: request.headers.get('x-upstream-user-agent') || '',
+  };
   const fwdHeaders = buildForwardHeaders(request.headers, ctx);
   const init = {
     method: request.method,
