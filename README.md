@@ -71,6 +71,21 @@ PROXY_TOKEN=xxx node node-server.js --port 8788 --mode auto
 Node 拥有完整 TLS 能力，因此 **Socket 模式是真实可用**的：默认 Socket 直连，
 仅对 OpenAI/Claude/opencode 等被 CF 保护 host 走 fetch；Socket 失败同样自动降级 fetch。
 
+### 一键安装 / 管理（Linux）
+
+`node/linux-service/` 内置一键部署脚本，把 `node-server.js` 跑成开机自启的
+systemd 常驻服务，**服务名为 `freeapi`**：
+
+```bash
+cd node/linux-service
+sudo ./install.sh            # 装到 /opt/freeapi + 生成 /etc/freeapi/freeapi.env + enable --now
+sudo ./install.sh --no-start # 只部署不启动（便于先改 env）
+```
+
+脚本会预检 `node >= 18.13`，自动解析 node 绝对路径（nvm 等用户目录安装也可用），
+生成 32 位随机 `PROXY_TOKEN`，并提供 `systemctl status|restart|stop freeapi`
+与 `journalctl -u freeapi -f` 等管理方式。详见 `node/linux-service/README.md`。
+
 ### 额外能力
 - 支持老式代理形态：绝对 URI（`curl -x http://ip:8788 https://...`）与 `CONNECT` 隧道。
 - 也可直接作为普通反向代理直连某目标（不带 `X-Forward-Target` 时按请求 Host 处理）。
@@ -112,11 +127,27 @@ PROXY_TOKEN=xxx PORT=8788 ./go-proxy                 # 或加 --port / --mode �
 
 ### 一键安装 / 管理（Linux）
 
-项目内置了交互式安装脚本 `go/install.sh`，支持自动装 Go、从 GitHub 拉源码编译，
-并用 systemd 以 `freeapi` 服务名托管，提供安装 / 暂停 / 重启 / 更新菜单：
+项目内置两套安装脚本，按环境二选一：
+
+**标准 Linux（systemd，需 root）—— `go/install.sh`**
+
+支持自动装 Go、从 GitHub 拉源码编译，并用 systemd 以 `freeapi` 服务名托管，
+提供安装 / 暂停 / 重启 / 更新菜单：
 
 ```bash
+cd go
 sudo bash install.sh      # 交互菜单；也可 bash install.sh 4 直达更新
+```
+
+**Alpine / 免 root（busybox，无需 systemd）—— `go/install-alpine.sh`**
+
+纯 POSIX sh，全程不需要 root：装到 `~/.local/freeapi`（Go 编译用 `~/.local/go`），
+服务用 `nohup` + pidfile 托管，开机自启优先写 `@reboot` crontab、无 crontab 则回退
+`~/.profile`；同样提供 install / start / stop / restart / status / update 子命令：
+
+```bash
+sh install-alpine.sh            # 交互菜单
+sh install-alpine.sh status     # 也可直接传子命令
 ```
 
 ### 设计要点
